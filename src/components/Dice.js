@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useBox } from 'use-cannon';
-import { CanvasTexture, Vector3 } from 'three';
+import { CanvasTexture } from 'three';
 
 import image1 from '../images/RoundIcons-Free-Set-01.png';
 import image2 from '../images/RoundIcons-Free-Set-02.png';
