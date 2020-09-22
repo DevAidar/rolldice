@@ -15,7 +15,7 @@ import image10 from '../images/RoundIcons-Free-Set-10.png';
 import image11 from '../images/RoundIcons-Free-Set-11.png';
 
 const Dice = ({ position }) => {
-	
+
 	const [ref, api] = useBox(() => {
 		switch (parseInt(Math.random() * 4 + 1)) {
 		case 1: 
@@ -169,8 +169,8 @@ const Dice = ({ position }) => {
 			img.src = images[textures.length];
 			img.onload = () => {
 				let ctx = document.createElement('canvas').getContext('2d');
-				ctx.canvas.width = 128;
-				ctx.canvas.height = 128;
+				ctx.canvas.width = 64;
+				ctx.canvas.height = 64;
 
 				ctx.beginPath();
 				ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -225,6 +225,7 @@ const Dice = ({ position }) => {
 		}}
 		onDoubleClick={() => throwDice()}
 	>
+		<boxBufferGeometry attach="geometry" />
 		{textures.map((texture, index) => (
 			<meshStandardMaterial
 				receiveShadow
@@ -234,7 +235,6 @@ const Dice = ({ position }) => {
 				smoothShading
 			/>
 		))}
-		<boxBufferGeometry attach="geometry" />
 	</mesh>;
 };
 

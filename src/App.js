@@ -124,7 +124,7 @@ const App = () => {
 					// shadow-mapSize={new Vector2(5000, 5000)}
 				/>
 				{/* Camera Movements */}
-				<OrbitControls />
+				{/* <OrbitControls /> */}
 			</Canvas>
 		</div>
 	);
