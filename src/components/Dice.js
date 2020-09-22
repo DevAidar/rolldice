@@ -19,19 +19,19 @@ const Dice = ({ position }) => {
 	const [ref, api] = useBox(() => {
 		switch (parseInt(Math.random() * 4 + 1)) {
 		case 1: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1), 10, -(window.innerHeight / 200 - 1)];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 10, -(window.innerHeight / 200 - 1.5)];
 			break;
 		case 2: 
-			position = [window.innerWidth / 200 - 1, 10, ((Math.random() * 2) - 1) * (window.innerHeight / 200 - 1)];
+			position = [window.innerWidth / 200 - 1.5, 10, ((Math.random() * 2) - 1) * (window.innerHeight / 200 - 1.5)];
 			break;
 		case 3: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1), 10, window.innerHeight / 200 - 1];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 10, window.innerHeight / 200 - 1.5];
 			break;
 		case 4: 
-			position = [Math.random() * (window.innerWidth / 200), 10, window.innerHeight / 200 - 1];
+			position = [Math.random() * (window.innerWidth / 200 - 1.5), 10, window.innerHeight / 200 - 1.5];
 			break;
 		default: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200) , 10, window.innerHeight / 200 - 1];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5) , 10, window.innerHeight / 200 - 1.5];
 			break;
 		}
   
@@ -40,14 +40,25 @@ const Dice = ({ position }) => {
 			args: [1, 1, 1],
 			position: position,
 			friction: 0.8, 
-		};});
+			rotation: [Math.random() * (Math.PI * 2), Math.random() * (Math.PI * 2), Math.random() * (Math.PI * 2)],
+		};
+	});
 
 	const images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11];
 	const [textures, setTextures] = useState([]);
   
 	const throwDice = useCallback(() => {
-		api.applyImpulse([0,10000,0],[Math.random() - .5,-.5,Math.random() - .5]);
-		api.velocity.set(-(ref.current.position.x) * (Math.random() * 10 + 5), 10, -(ref.current.position.z) * (Math.random() * 10 + 5));
+		api.applyImpulse([0,1000,0],[Math.random() - .5,-.5,Math.random() - .5]);
+		api.velocity.set(-(ref.current.position.x) * (Math.random() * 10 + 2), 10, -(ref.current.position.z) * (Math.random() * 10 + 2));
+	}, [api, ref]);
+  
+	const throwDiceUp = useCallback(() => {
+		if (ref.current.position.y < 1) {
+			api.applyImpulse([0, -1000, 0], [0, 0, 0]);
+			// api.velocity.set(-ref.current.position.x / 2, -10, -ref.current.position.z / 2);
+			api.velocity.set(0, -10, 0);
+			console.log('DIE');
+		}
 	}, [api, ref]);
   
 	useEffect(() => {
@@ -55,6 +66,102 @@ const Dice = ({ position }) => {
 			throwDice();
 		}
 	}, [textures, throwDice]);
+  
+	const getUpSide = () => {
+		// console.log(parseInt(ref.current.rotation._x * 10), parseInt(ref.current.rotation._y * 10), parseInt(ref.current.rotation._z * 10));
+    
+		if (parseInt(ref.current.rotation._x * 10) === -parseInt(Math.PI / 2 * 10)) {
+			if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
+				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+					console.log(1.11);
+				} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+					console.log(2.11);
+				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+					console.log(3.11);
+				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+					console.log(4.11);
+				} else {
+					throwDiceUp();
+				}
+			} else if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
+				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+					console.log(1.12);
+				} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+					console.log(2.12);
+				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+					console.log(3.12);
+				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+					console.log(4.12);
+				} else {
+					throwDiceUp();
+				}
+			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
+				console.log(5.1);
+			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
+				console.log(6.1);
+			} else {
+				throwDiceUp();
+			}
+		} else if (parseInt(ref.current.rotation._x * 10) === parseInt(Math.PI / 2 * 10)) {
+			if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
+				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+					console.log(1.11);
+				} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+					console.log(2.11);
+				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+					console.log(3.11);
+				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+					console.log(4.11);
+				} else {
+					throwDiceUp();
+				}
+			} else if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
+				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+					console.log(1.12);
+				} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+					console.log(2.12);
+				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+					console.log(3.12);
+				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+					console.log(4.12);
+				} else {
+					throwDiceUp();
+				}
+			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
+				console.log(6.2);
+			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
+				console.log(5.2);
+			} else {
+				throwDiceUp();
+			}
+		} else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === parseInt(Math.PI * 10)) {
+			if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+				console.log(1.3);
+			} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+				console.log(2.3);
+			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+				console.log(4.3);
+			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+				console.log(3.3);
+			} else {
+				throwDiceUp();
+			}
+		} else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === 1 || !parseInt(ref.current.rotation._x * 10)) {
+			if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
+				console.log(1.4);
+			} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
+				console.log(2.4);
+			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
+				console.log(3.4);
+			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
+				console.log(4.4);
+			} else {
+				throwDiceUp();
+			}
+		} else {
+			throwDiceUp();
+		}
+	};
 
 	useEffect(() => {
 		if (textures.length < 6) {
@@ -90,11 +197,33 @@ const Dice = ({ position }) => {
 		}
 	}, [images, textures]);
   
+	const isDone = () => {
+		let threshold = .03;
+		api.velocity.subscribe(velocity => {
+			if (Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < threshold) {
+				// console.log('Stationary');
+				getUpSide();
+				return;
+			} else {
+				console.log('I am moving');
+			}
+		});
+  
+		// console.log(ref.current.rotation, api.velocity);
+	};
+  
 	return <mesh
 		receiveShadow
 		castShadow
 		ref={ref}
-		onClick={() => throwDice()}
+		onClick={() => {
+			console.log(ref.current.rotation);
+			// api.angularVelocity.subscribe((velocity) => console.log(velocity));
+			isDone();
+			getUpSide();
+			// throwDice();
+		}}
+		onDoubleClick={() => throwDice()}
 	>
 		{textures.map((texture, index) => (
 			<meshStandardMaterial

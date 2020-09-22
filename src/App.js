@@ -21,12 +21,11 @@ function Plane(props) {
 }
 
 const Wall = ({ rotation, args, position }) => {
-	const [ref] = usePlane(() => ({ mass: 0, friction: 100, rotation: rotation, position: position }));
+	const [ref] = usePlane(() => ({ mass: 0, friction: 10000, rotation: rotation, position: position }));
   
 	return (
 		<mesh ref={ref}>
 			<planeBufferGeometry attach='geometry' args={args}/>
-			{/* <meshStandardMaterial attach="material" color="#FFFFFF"/> */}
 			<meshStandardMaterial attach="material" color="#FFFFFF" opacity={0} transparent={true}/>
 		</mesh>
 	);
