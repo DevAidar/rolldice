@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from 'react-three-fiber';
-import { OrbitControls, softShadows } from 'drei';
-import { Physics, useBox, usePlane } from 'use-cannon';
-import { Vector2, PCFShadowMap } from 'three';
+import { softShadows } from 'drei';
+import { Physics, usePlane } from 'use-cannon';
+import { Vector2 } from 'three';
 
 import Dice from './components/Dice';
 
@@ -52,30 +52,10 @@ const App = () => {
 					<Wall rotation={[0, Math.PI, 0]} args={[window.innerWidth / 100 - .4, 100, 0]} position={[0, 50, window.innerHeight / 200 - .2]}/>
 					<Wall rotation={[0, Math.PI / 2, 0]} args={[window.innerHeight / 100 - .4, 100, 0]} position={[-(window.innerWidth / 200 - .2), 50, 0]}/>
 					<Dice/>
-					{/* <Dice position={[window.innerWidth / 200 - 1, 1, window.innerHeight / 200 - 1]}/> */}
-					{/* <group>
-						<mesh
-							rotation={[-Math.PI / 2, 0, 0]}
-							position={[0, -3, 0]}
-							receiveShadow
-						>
-							<planeBufferGeometry attach='geometry' args={[100, 100]} />
-							<shadowMaterial attach='material' opacity={0.3} />
-						</mesh>
-						<SpinningMesh
-							position={[-2, 1, -5]}
-							color='pink'
-							speed={6}
-						/>
-						<RoundedBox
-							args={[1, 1, 1]}  // Width, Height and Depth of the box
-							radius={.1}     // Border-Radius of the box
-							smoothness={4}    // Optional, number of subdivisions
-						// {...meshProps}    // All THREE.Mesh props are valid
-						>
-							<meshPhongMaterial attach="material" color="#f3f3f3" wireframe />
-						</RoundedBox>
-					</group> */}
+					<Dice/>
+					<Dice/>
+					<Dice/>
+					<Dice/>
 				</Physics>
 				<ambientLight color='#f0f5fb' intensity={.4}/>
 				{/* <pointLight
@@ -125,8 +105,6 @@ const App = () => {
 					shadow-mapSize={new Vector2(1024, 1024)}
 					// fov={.0000001}
 				/>
-				{/* Camera Movements */}
-				{/* <OrbitControls /> */}
 			</Canvas>
 		</div>
 	);
