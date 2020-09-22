@@ -48,7 +48,7 @@ const Dice = ({ position }) => {
 	const [textures, setTextures] = useState([]);
   
 	const throwDice = useCallback(() => {
-		api.applyImpulse([0,1000,0],[Math.random() - .5,-.5,Math.random() - .5]);
+		api.applyImpulse([0,100,0],[Math.random() - .5,-.5,Math.random() - .5]);
 		api.velocity.set(-(ref.current.position.x) * (Math.random() * 10 + 2), 10, -(ref.current.position.z) * (Math.random() * 10 + 2));
 	}, [api, ref]);
   
@@ -169,8 +169,8 @@ const Dice = ({ position }) => {
 			img.src = images[textures.length];
 			img.onload = () => {
 				let ctx = document.createElement('canvas').getContext('2d');
-				ctx.canvas.width = 512;
-				ctx.canvas.height = 512;
+				ctx.canvas.width = 128;
+				ctx.canvas.height = 128;
 
 				ctx.beginPath();
 				ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
