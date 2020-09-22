@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { OrbitControls, softShadows } from 'drei';
 import { Physics, useBox, usePlane } from 'use-cannon';
-import { Vector2 } from 'three';
+import { Vector2, PCFShadowMap } from 'three';
 
 import Dice from './components/Dice';
 
@@ -41,6 +41,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Canvas shadowMap colorManagement camera={{ position: [0, CAMERA_HEIGHT, 0], fov: fov }}>
+        
 				{/* <hemisphereLight intensity={0.35} /> */}
 				{/* <spotLight position={[5, 5, 5]} angle={0.3} penumbra={1} intensity={2} castShadow shadow-mapSize-width={256} shadow-mapSize-height={256} /> */}
 				
@@ -116,12 +117,13 @@ const App = () => {
 					penumbra={1}
 					shadow-mapSize={new Vector2(2048 * 5, 2048 * 5)}
 				/> */}
-				<pointLight 
+				<spotLight
 					castShadow
-					intensity={0.5}
+					intensity={.5}
 					position={[window.innerWidth / 200 - .2, 50, -(window.innerHeight / 200 - .2)]}
 					angle={Math.PI / 3}
-					// shadow-mapSize={new Vector2(5000, 5000)}
+					shadow-mapSize={new Vector2(1024, 1024)}
+					// fov={.0000001}
 				/>
 				{/* Camera Movements */}
 				{/* <OrbitControls /> */}
