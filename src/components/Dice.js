@@ -54,7 +54,7 @@ const Dice = ({ position }) => {
   
 	const throwDiceUp = useCallback(() => {
 		if (ref.current.position.y < 1) {
-			api.applyImpulse([0, -1000, 0], [0, 0, 0]);
+			api.applyImpulse([0, 100, 0], [0, 0, 0]);
 			// api.velocity.set(-ref.current.position.x / 2, -10, -ref.current.position.z / 2);
 			api.velocity.set(0, -10, 0);
 			console.log('DIE');
