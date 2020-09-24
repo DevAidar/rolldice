@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDom from 'react-dom';
 import { Canvas } from 'react-three-fiber';
-import { OrbitControls, PerspectiveCamera, softShadows, useCamera } from 'drei';
+import { OrbitControls, PerspectiveCamera, softShadows } from 'drei';
 import { Physics } from 'use-cannon';
-import { Camera, CameraHelper, Vector2 } from 'three';
+import { Vector2 } from 'three';
 
 import Dice from './Dice/Dice';
 import Plane from './Table/Plane/Plane';

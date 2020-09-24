@@ -14,7 +14,7 @@ import image9 from '../../../images/RoundIcons-Free-Set-09.png';
 import image10 from '../../../images/RoundIcons-Free-Set-10.png';
 import image11 from '../../../images/RoundIcons-Free-Set-11.png';
 
-const Dice = ({ position, showStats }) => {
+const Dice = ({ position }) => {
 
 	const [ref, api] = useBox(() => {
 		switch (parseInt(Math.random() * 4 + 1)) {
@@ -52,12 +52,14 @@ const Dice = ({ position, showStats }) => {
 		api.velocity.set(-(ref.current.position.x) * (Math.random() * 10 + 2), 10, -(ref.current.position.z) * (Math.random() * 10 + 2));
 	}, [api, ref]);
   
+	/*
 	const throwDiceUp = useCallback(() => {
 		if (ref.current.position.y < 1) {
 			api.applyImpulse([0, 500, 0], [0, 0, 0]);
 			api.velocity.set(0, -10, 0);
 		}
-	}, [api, ref]);
+  }, [api, ref]);
+  */
   
 	useEffect(() => {
 		if (!textures.length) {
@@ -65,6 +67,7 @@ const Dice = ({ position, showStats }) => {
 		}
 	}, [textures, throwDice]);
   
+	/*
 	const getUpSide = () => {
 		// console.log(parseInt(ref.current.rotation._x * 10), parseInt(ref.current.rotation._y * 10), parseInt(ref.current.rotation._z * 10));
     
@@ -159,7 +162,8 @@ const Dice = ({ position, showStats }) => {
 		} else {
 			throwDiceUp();
 		}
-	};
+  };
+  */
 
 	useEffect(() => {
 		if (textures.length < 6) {
