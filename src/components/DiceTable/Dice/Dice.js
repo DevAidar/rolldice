@@ -2,19 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useBox } from 'use-cannon';
 import { CanvasTexture } from 'three';
 
-import image1 from '../images/RoundIcons-Free-Set-01.png';
-import image2 from '../images/RoundIcons-Free-Set-02.png';
-import image3 from '../images/RoundIcons-Free-Set-03.png';
-import image4 from '../images/RoundIcons-Free-Set-04.png';
-import image5 from '../images/RoundIcons-Free-Set-05.png';
-import image6 from '../images/RoundIcons-Free-Set-06.png';
-import image7 from '../images/RoundIcons-Free-Set-07.png';
-import image8 from '../images/RoundIcons-Free-Set-08.png';
-import image9 from '../images/RoundIcons-Free-Set-09.png';
-import image10 from '../images/RoundIcons-Free-Set-10.png';
-import image11 from '../images/RoundIcons-Free-Set-11.png';
+import image1 from '../../../images/RoundIcons-Free-Set-01.png';
+import image2 from '../../../images/RoundIcons-Free-Set-02.png';
+import image3 from '../../../images/RoundIcons-Free-Set-03.png';
+import image4 from '../../../images/RoundIcons-Free-Set-04.png';
+import image5 from '../../../images/RoundIcons-Free-Set-05.png';
+import image6 from '../../../images/RoundIcons-Free-Set-06.png';
+import image7 from '../../../images/RoundIcons-Free-Set-07.png';
+import image8 from '../../../images/RoundIcons-Free-Set-08.png';
+import image9 from '../../../images/RoundIcons-Free-Set-09.png';
+import image10 from '../../../images/RoundIcons-Free-Set-10.png';
+import image11 from '../../../images/RoundIcons-Free-Set-11.png';
 
-const Dice = ({ position }) => {
+const Dice = ({ position, showStats }) => {
 
 	const [ref, api] = useBox(() => {
 		switch (parseInt(Math.random() * 4 + 1)) {
@@ -54,10 +54,8 @@ const Dice = ({ position }) => {
   
 	const throwDiceUp = useCallback(() => {
 		if (ref.current.position.y < 1) {
-			api.applyImpulse([0, 100, 0], [0, 0, 0]);
-			// api.velocity.set(-ref.current.position.x / 2, -10, -ref.current.position.z / 2);
+			api.applyImpulse([0, 500, 0], [0, 0, 0]);
 			api.velocity.set(0, -10, 0);
-			console.log('DIE');
 		}
 	}, [api, ref]);
   
@@ -202,14 +200,12 @@ const Dice = ({ position }) => {
 		api.velocity.subscribe(velocity => {
 			if (Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < threshold) {
 				// console.log('Stationary');
-				getUpSide();
+				// getUpSide();
 				return;
 			} else {
 				console.log('I am moving');
 			}
 		});
-  
-		// console.log(ref.current.rotation, api.velocity);
 	};
   
 	return <mesh
@@ -217,13 +213,15 @@ const Dice = ({ position }) => {
 		castShadow
 		ref={ref}
 		onClick={() => {
-			console.log(ref.current.rotation);
+			// console.log(ref.current.rotation);
 			// api.angularVelocity.subscribe((velocity) => console.log(velocity));
 			isDone();
-			getUpSide();
+			// getUpSide();
 			// throwDice();
 		}}
-		onDoubleClick={() => throwDice()}
+		onDoubleClick={() => {
+			throwDice();
+		}}
 	>
 		<boxBufferGeometry attach="geometry" />
 		{textures.map((texture, index) => (
