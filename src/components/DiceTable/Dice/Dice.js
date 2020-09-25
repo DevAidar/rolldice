@@ -169,8 +169,8 @@ const Dice = ({ setDice, position }) => {
 			img.src = images[textures.length];
 			img.onload = () => {
 				let ctx = document.createElement('canvas').getContext('2d');
-				ctx.canvas.width = 64;
-				ctx.canvas.height = 64;
+				ctx.canvas.width = 256;
+				ctx.canvas.height = 256;
 
 				ctx.beginPath();
 				ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);

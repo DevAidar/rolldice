@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import DiceTable from './components/DiceTable/DiceTable';
-import ThrowDiceButton from './components/ThrowDiceButton/ThrowDiceButton';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 import './App.scss';  
 
@@ -11,9 +12,13 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<Header/>
-			<DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })}/>
-			<ThrowDiceButton throwDice={() => setState({ ...state, started: true })}/>
+			<Switch>
+				<Route exact path="/">
+					<Header/>
+					<DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })}/>
+				</Route>
+				<PageNotFound />
+			</Switch>
 		</div>
 	);
 };
