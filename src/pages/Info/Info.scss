@@ -1,0 +1,22 @@
+.card {
+	width: min(400px, 90%);
+	margin: 0 auto;
+}
+
+.card-profile-img {
+	height: 60px;
+	width: auto;
+}
+
+.card-profile {
+	display: flex;
+	margin: 1em 0;
+}
+
+.attendee-name {
+	display: flex;
+	padding-left: 0.5em;
+	margin: auto 0;
+	margin-left: 0.5em;
+	width: 100%;
+}

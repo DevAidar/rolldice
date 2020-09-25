@@ -10,7 +10,7 @@ import './Header.scss';
 
 const Header = ({ shown, isLoggedIn }) => {
 	return (
-		<nav className='navbar'>
+		<nav className='container navbar'>
 			<img src={logo} alt='' className='navbar-logo'/>
 			<div className='navbar-game-switch btn-group btn-group-toggle'>
 				<GameInfoButton/>
