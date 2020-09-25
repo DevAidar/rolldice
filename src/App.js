@@ -17,7 +17,9 @@ const App = () => {
 					<Header/>
 					<DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })}/>
 				</Route>
-				<PageNotFound />
+				<Route>
+					<PageNotFound />
+				</Route>
 			</Switch>
 		</div>
 	);
