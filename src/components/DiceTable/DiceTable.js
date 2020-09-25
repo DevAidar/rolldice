@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import { Canvas } from 'react-three-fiber';
 import { OrbitControls, PerspectiveCamera } from 'drei';
 import { Physics } from 'use-cannon';
-import { Object3D, Vector2 } from 'three';
+import { Object3D } from 'three';
 
 import Dice from './Dice/Dice';
 import Plane from './Table/Plane/Plane';
