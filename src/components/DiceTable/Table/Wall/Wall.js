@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { usePlane } from 'use-cannon';
 
 const Wall = ({ rotation, args, position, scale }) => {
-	const [ref, api] = usePlane(() => ({ mass: 0, friction: 1000000, rotation: rotation, position: position }));
+	const [ref, api] = usePlane(() => ({ mass: 0, friction: 0, rotation: rotation, position: position }));
   
 	useEffect(() => {
 		ref.current.scale.x = scale[0];

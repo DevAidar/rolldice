@@ -1,0 +1,29 @@
+.navbar {
+	height: 50px;
+	padding: 0 20px;
+	margin: 0 auto;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	width: min(90%);
+	justify-content: space-between;
+}
+
+.navbar-content {
+	margin-left: auto;
+	display: flex;
+	justify-content: flex-end;
+	align-content: center;
+}
+
+.navbar-logo,
+.navbar-profile-img {
+	height: 40px;
+	width: 40px;
+	margin: auto 0;
+}
+.navbar-info-icon {
+	font-size: 1.5rem;
+	margin: auto 0;
+	margin-right: 20px;
+	color: white;
+}

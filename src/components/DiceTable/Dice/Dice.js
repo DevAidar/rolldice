@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useBox } from 'use-cannon';
-import { CanvasTexture } from 'three';
+import { CanvasTexture, Object3D } from 'three';
 
 import image1 from '../../../images/RoundIcons-Free-Set-01.png';
 import image2 from '../../../images/RoundIcons-Free-Set-02.png';
@@ -14,24 +14,24 @@ import image9 from '../../../images/RoundIcons-Free-Set-09.png';
 import image10 from '../../../images/RoundIcons-Free-Set-10.png';
 import image11 from '../../../images/RoundIcons-Free-Set-11.png';
 
-const Dice = ({ position }) => {
+const Dice = ({ setDice, position }) => {
 
 	const [ref, api] = useBox(() => {
 		switch (parseInt(Math.random() * 4 + 1)) {
 		case 1: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 10, -(window.innerHeight / 200 - 1.5)];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 5, -(window.innerHeight / 200 - 1.5)];
 			break;
 		case 2: 
-			position = [window.innerWidth / 200 - 1.5, 10, ((Math.random() * 2) - 1) * (window.innerHeight / 200 - 1.5)];
+			position = [window.innerWidth / 200 - 1.5, 5, ((Math.random() * 2) - 1) * (window.innerHeight / 200 - 1.5)];
 			break;
 		case 3: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 10, window.innerHeight / 200 - 1.5];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5), 5, window.innerHeight / 200 - 1.5];
 			break;
 		case 4: 
-			position = [Math.random() * (window.innerWidth / 200 - 1.5), 10, window.innerHeight / 200 - 1.5];
+			position = [Math.random() * (window.innerWidth / 200 - 1.5), 5, window.innerHeight / 200 - 1.5];
 			break;
 		default: 
-			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5) , 10, window.innerHeight / 200 - 1.5];
+			position = [((Math.random() * 2) - 1) * (window.innerWidth / 200 - 1.5) , 5, window.innerHeight / 200 - 1.5];
 			break;
 		}
   
@@ -47,30 +47,19 @@ const Dice = ({ position }) => {
 	const images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11];
 	const [textures, setTextures] = useState([]);
   
-	const throwDice = useCallback(() => {
+	const throwDice = useCallback((api, ref) => {
 		api.applyImpulse([0,100,0],[Math.random() - .5,-.5,Math.random() - .5]);
-		api.velocity.set(-(ref.current.position.x) * (Math.random() * 10 + 2), 10, -(ref.current.position.z) * (Math.random() * 10 + 2));
-	}, [api, ref]);
+		api.velocity.set(-((ref.current.position.x) * (Math.random() * 10 + 2) + 2), 10, -((ref.current.position.z) * (Math.random() * 10 + 2) + 2));
+	}, []);
   
-	/*
-	const throwDiceUp = useCallback(() => {
+	const throwDiceUp = useCallback((api, ref) => {
 		if (ref.current.position.y < 1) {
 			api.applyImpulse([0, 500, 0], [0, 0, 0]);
 			api.velocity.set(0, -10, 0);
 		}
-  }, [api, ref]);
-  */
-  
-	useEffect(() => {
-		if (!textures.length) {
-			throwDice();
-		}
-	}, [textures, throwDice]);
-  
-	/*
-	const getUpSide = () => {
-		// console.log(parseInt(ref.current.rotation._x * 10), parseInt(ref.current.rotation._y * 10), parseInt(ref.current.rotation._z * 10));
-    
+	}, []);
+	
+	const getUpSide = useCallback((api, ref, throwDiceUp) => {
 		if (parseInt(ref.current.rotation._x * 10) === -parseInt(Math.PI / 2 * 10)) {
 			if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
 				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
@@ -82,7 +71,7 @@ const Dice = ({ position }) => {
 				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
 					console.log(4.11);
 				} else {
-					throwDiceUp();
+					throwDiceUp(api, ref);
 				}
 			} else if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
 				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
@@ -94,14 +83,14 @@ const Dice = ({ position }) => {
 				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
 					console.log(4.12);
 				} else {
-					throwDiceUp();
+					throwDiceUp(api, ref);
 				}
 			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
 				console.log(5.1);
 			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
 				console.log(6.1);
 			} else {
-				throwDiceUp();
+				throwDiceUp(api, ref);
 			}
 		} else if (parseInt(ref.current.rotation._x * 10) === parseInt(Math.PI / 2 * 10)) {
 			if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
@@ -114,7 +103,7 @@ const Dice = ({ position }) => {
 				} else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
 					console.log(4.11);
 				} else {
-					throwDiceUp();
+					throwDiceUp(api, ref);
 				}
 			} else if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
 				if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
@@ -126,14 +115,14 @@ const Dice = ({ position }) => {
 				} else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
 					console.log(4.12);
 				} else {
-					throwDiceUp();
+					throwDiceUp(api, ref);
 				}
 			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
 				console.log(6.2);
 			} else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
 				console.log(5.2);
 			} else {
-				throwDiceUp();
+				throwDiceUp(api, ref);
 			}
 		} else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === parseInt(Math.PI * 10)) {
 			if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
@@ -145,7 +134,7 @@ const Dice = ({ position }) => {
 			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
 				console.log(3.3);
 			} else {
-				throwDiceUp();
+				throwDiceUp(api, ref);
 			}
 		} else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === 1 || !parseInt(ref.current.rotation._x * 10)) {
 			if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
@@ -157,13 +146,22 @@ const Dice = ({ position }) => {
 			} else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
 				console.log(4.4);
 			} else {
-				throwDiceUp();
+				throwDiceUp(api, ref);
 			}
 		} else {
-			throwDiceUp();
+			throwDiceUp(api, ref);
 		}
-  };
-  */
+	}, []);
+
+	useEffect(() => {
+		if (!textures.length) {
+			throwDice(api, ref);
+			api.velocity.subscribe(velocity => Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < .03
+				?	getUpSide(api, ref, throwDiceUp)
+				: null,
+			);
+		}
+	}, [api, getUpSide, ref, textures, throwDice, throwDiceUp]);
 
 	useEffect(() => {
 		if (textures.length < 6) {
@@ -199,33 +197,17 @@ const Dice = ({ position }) => {
 		}
 	}, [images, textures]);
   
-	const isDone = () => {
-		let threshold = .03;
-		api.velocity.subscribe(velocity => {
-			if (Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < threshold) {
-				// console.log('Stationary');
-				// getUpSide();
-				return;
-			} else {
-				console.log('I am moving');
-			}
-		});
-	};
+	useEffect(() => {
+		if (ref)
+		  setDice([ref.current]);
+	}, [ref, setDice]);
   
 	return <mesh
 		receiveShadow
 		castShadow
 		ref={ref}
-		onClick={() => {
-			// console.log(ref.current.rotation);
-			// api.angularVelocity.subscribe((velocity) => console.log(velocity));
-			isDone();
-			// getUpSide();
-			// throwDice();
-		}}
-		onDoubleClick={() => {
-			throwDice();
-		}}
+		onClick={() => console.log(new Object3D())}
+		onDoubleClick={() => throwDice(api, ref)}
 	>
 		<boxBufferGeometry attach="geometry" />
 		{textures.map((texture, index) => (
