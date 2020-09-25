@@ -9,6 +9,7 @@
 		"@testing-library/user-event": "^7.1.2",
 		"axios": "^0.20.0",
 		"drei": "^1.5.2",
+		"express": "^4.17.1",
 		"nanoid": "^3.1.12",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
@@ -26,10 +27,12 @@
 		"zustand": "^3.1.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"old-start": "react-scripts start",
+		"start": "node server/server.js",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"heroku-postbuild": "yarn && yarn build"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
