@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router';
+import { Switch } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import DiceTable from './components/DiceTable/DiceTable';
