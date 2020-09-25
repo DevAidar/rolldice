@@ -11,12 +11,10 @@ import rootReducer from './reducers';
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
-	<BrowserRouter>
-		<Provider store={store}>
-			<React.StrictMode>
-				<App />
-			</React.StrictMode>
-		</Provider>
-	</BrowserRouter>,
+	<Provider store={store}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</Provider>,
 	document.getElementById('root'),
 );
