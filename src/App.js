@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import DiceTable from './components/DiceTable/DiceTable';
@@ -12,13 +12,13 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<Router>
-				<Route exact path="/">
+			<Switch>
+				<Route exact path='/'>
 					<Header/>
 					<DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })}/>
 				</Route>
 				<PageNotFound />
-			</Router>
+			</Switch>
 		</div>
 	);
 };
