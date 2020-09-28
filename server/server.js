@@ -1,6 +1,9 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const apiRouter = require('./api/api');
 
@@ -13,6 +16,13 @@ const uploadsPath = path.join(__dirname, '..', 'uploads');
 const port = process.env.PORT || 3000;
 
 app.use(morgan('common'));
+app.use(helmet());
+app.use(cors({
+	origin: process.env.CORS_ORIGIN,
+	// exposedHeaders: 'auth-token',
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api', apiRouter);
 app.use('/uploads', express.static(uploadsPath));
