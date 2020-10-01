@@ -1,16 +1,16 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const ThrowDiceButton = () => {
-	const { location, push } = useHistory();
+	const { location } = useHistory();
 
 	return (
-		<button 
+		<Link 
 			className={`throw-dice-button btn btn-info${location.pathname === '/' ? ' active' : ''}`}
-			onClick={() => push('/')}
+			to='/'
 		>
 			<i className='fa fa-gamepad'/>
-		</button>
+		</Link>
 	);
 };
 

@@ -1,17 +1,17 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const GameInfoButton = () => {
 	const { location, push } = useHistory();
 	console.log(new useHistory());
 
 	return (
-		<button 
+		<Link 
 			className={`throw-dice-button btn btn-info${location.pathname === '/' ? '' : ' active'}`}
-			onClick={() => push('/info')}
+			to='/info'
 		>
 			<i className='fa fa-info-circle'/>
-		</button>
+		</Link>
 	);
 };
 

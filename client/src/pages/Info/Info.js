@@ -18,7 +18,6 @@ import './Info.scss';
 const Info = () => {
 	return (
 		<>
-			<Header/>
 			<div className='container'>
 				<div className='card mt-4'>
 					<div className='card-header text-center bg-info text-white'>

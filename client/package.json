@@ -3,23 +3,12 @@
 	"homepage": "https://rolldice.devaidar.com/",
 	"version": "0.1.0",
 	"private": true,
-	"proxy": "http://localhost:5000",
 	"dependencies": {
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.3.2",
 		"@testing-library/user-event": "^7.1.2",
 		"axios": "^0.20.0",
-		"bcryptjs": "^2.4.3",
-		"body-parser": "^1.19.0",
-		"cors": "^2.8.5",
-		"dotenv": "^8.2.0",
 		"drei": "^1.5.2",
-		"express": "^4.17.1",
-		"helmet": "^4.1.1",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.10.7",
-		"morgan": "^1.10.0",
-		"multer": "^1.4.2",
 		"nanoid": "^3.1.12",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
@@ -28,6 +17,7 @@
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.3",
 		"react-spring": "^8.0.27",
+		"react-spring-three": "^1.0.4",
 		"react-three-fiber": "^4.2.21",
 		"redux": "^4.0.5",
 		"redux-thunk": "^2.3.0",
@@ -36,15 +26,14 @@
 		"use-cannon": "^0.5.1",
 		"zustand": "^3.1.1"
 	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
 	"scripts": {
-		"old-start": "cd client && react-scripts start",
-		"start": "node server/server.js",
-		"dev": "nodemon server/server.js",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"install-client": "cd client && yarn",
-		"heroku-postbuild": "yarn run install-client && cd client && yarn build"
+		"eject": "react-scripts eject"
 	},
 	"browserslist": {
 		"production": [
@@ -57,8 +46,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"nodemon": "^2.0.4"
 	}
 }

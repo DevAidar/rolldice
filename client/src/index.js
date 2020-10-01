@@ -12,9 +12,11 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
 	<Provider store={store}>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</Provider>,
+    <BrowserRouter>
+      {/* <React.StrictMode> */}
+        <App />
+      {/* </React.StrictMode> */}
+    </BrowserRouter>
+  </Provider>,
 	document.getElementById('root'),
 );

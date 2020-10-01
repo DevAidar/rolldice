@@ -78,14 +78,14 @@ const DiceTable = ({ state, throwDice }) => {
 					position={[-(dimensions.width / 2 - .2), CAMERA_HEIGHT / 2, 0]}
 					scale={[dimensions.height - .4, 1, 0]} 
 				/>
-				{state.started ? <Dice setDice={setDice}/> : null}
+				<Dice setDice={setDice}/>
 			</Physics>
 
 			{/* lights #f0f5fb */}
 			<ambientLight color='#FFFFFF' intensity={.5}/>
 			<directionalLight
 				castShadow
-				position={[dimensions.width / 2 - .2, CAMERA_HEIGHT / 2, (dimensions.height / 2 - .2)]}
+				position={[0, CAMERA_HEIGHT, 0]}
 				intensity={.8}
 				target={dice.length ? dice[0] : new Object3D()}
 				shadow-mapSize-width={1024}
