@@ -9,7 +9,7 @@ import axios from 'axios';
 const fetchUsers = (from, amount) => (dispatch) => {
   console.log('sup')
   axios
-    .get(`http://localhost:5000/api/users?from=${from}&amount${amount}`)
+    .get(`https://roll-dice-app.herokuapp.com/api/users?from=${from}&amount${amount}`)
     .then((res) => dispatch({
       type: FETCH_USERS,
       res: res,
