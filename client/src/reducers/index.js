@@ -36,7 +36,7 @@ const rootReducer = (state = INITIAL_STATE, action) => {
 
       const ctx = document.createElement('canvas').getContext('2d');
       const img = new Image();
-      img.src = state.opponents.find((opponent) => opponent._id === action.id).profileImage;
+      img.src = 'https://roll-dice-app.herokuapp.com/' + state.opponents.find((opponent) => opponent._id === action.id).profileImage;
       img.onload = () => {
         ctx.canvas.width = 256;
         ctx.canvas.height = 256;

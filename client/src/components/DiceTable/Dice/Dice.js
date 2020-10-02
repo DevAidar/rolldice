@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { animated } from 'react-spring/three';
 import { useBox } from 'use-cannon';
 import { CanvasTexture } from 'three';
-import { useFrame } from 'react-three-fiber';
+import { Canvas, useFrame } from 'react-three-fiber';
 
 import questionMark from '../../../images/questionMark.png';
 
@@ -33,6 +33,7 @@ img.onload = () => {
   );
   ctx.closePath();
 };
+const questionMarkTexture = new CanvasTexture(ctx.canvas);
 
 const Dice = ({ dice, history }) => {
   const [thrown, setThrown] = useState(false);
@@ -336,7 +337,7 @@ const Dice = ({ dice, history }) => {
       if (dice.length > 1 && dice.length <= 6 && 6 % dice.length === 0) {
         setTextures([...textures, dice[textures.length % dice.length].diceTexture]);
       } else {
-        setTextures([...textures, new CanvasTexture(ctx.canvas)]);
+        setTextures([...textures, questionMarkTexture]);
       }
     }
   }, [textures]);
@@ -347,6 +348,11 @@ const Dice = ({ dice, history }) => {
     ref={ref}
     onClick={() => {
       if (!thrown || landed) {
+        setTextures(textures.map((texture, i) => {
+          if (dice.length > 1 && dice.length <= 6 && 6 % dice.length === 0) 
+            return dice[i % dice.length].diceTexture;
+          return questionMarkTexture;
+        }))
         setThrown(true);
         setLanded(false);
       }
