@@ -11,7 +11,7 @@ import Wall from './Table/Wall/Wall';
 
 import './DiceTable.scss';
 
-const DiceTable = ({ state, throwDice }) => {
+const DiceTable = ({ state, throwDice, dice }) => {
 	const CAMERA_HEIGHT = 100;
 	const GRAVITY = [0, -30, 0];
   
@@ -20,9 +20,9 @@ const DiceTable = ({ state, throwDice }) => {
 	const [dimensions, setDimensions] = useState({
 		height: window.innerHeight / 100,
 		width: window.innerWidth / 100, 
-	});
+  });
   
-	const [dice, setDice] = useState([]);
+  const [diceRef, setDiceRef] = useState([]);
   
 	useEffect(() => {
 		const handleResize = () => {
@@ -78,7 +78,7 @@ const DiceTable = ({ state, throwDice }) => {
 					position={[-(dimensions.width / 2 - .2), CAMERA_HEIGHT / 2, 0]}
 					scale={[dimensions.height - .4, 1, 0]} 
 				/>
-				<Dice setDice={setDice}/>
+				<Dice dice={dice}/>
 			</Physics>
 
 			{/* lights #f0f5fb */}
@@ -87,7 +87,7 @@ const DiceTable = ({ state, throwDice }) => {
 				castShadow
 				position={[0, CAMERA_HEIGHT, 0]}
 				intensity={.8}
-				target={dice.length ? dice[0] : new Object3D()}
+				target={diceRef.length ? diceRef[0] : new Object3D()}
 				shadow-mapSize-width={1024}
 				shadow-mapSize-height={1024}
 				shadow-camera-far={(dimensions.height + dimensions.width) * 100}

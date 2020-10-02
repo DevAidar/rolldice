@@ -6,6 +6,8 @@ import DiceTable from '../../components/DiceTable/DiceTable';
 const Game = ({ dice }) => {
   const [state, setState] = useState({ started: false, diceThrown: false });
 
+  console.log(dice);
+
   return (
     <DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })} dice={dice} />
   );

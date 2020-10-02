@@ -16,7 +16,35 @@ import image9 from '../../../images/RoundIcons-Free-Set-09.png';
 import image10 from '../../../images/RoundIcons-Free-Set-10.png';
 import image11 from '../../../images/RoundIcons-Free-Set-11.png';
 
-const Dice = () => {
+const ctx = document.createElement('canvas').getContext('2d');
+const img = new Image();
+img.src = image1;
+img.onload = () => {
+  ctx.canvas.width = 256;
+  ctx.canvas.height = 256;
+
+  ctx.beginPath();
+  ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = '#636e72';
+  ctx.fill();
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    img.width,
+    img.height,
+    ctx.canvas.width * .05,
+    ctx.canvas.height * .05,
+    ctx.canvas.width * .9,
+    ctx.canvas.height * .9,
+  );
+  ctx.closePath();
+};
+
+const Dice = ({ dice }) => {
   const [thrown, setThrown] = useState(false);
   const [landed, setLanded] = useState(false);
   const [textures, setTextures] = useState([]);
@@ -260,38 +288,13 @@ const Dice = () => {
 
   useEffect(() => {
     if (textures.length < 6) {
-      let img = new Image();
-      // img.src = `${process.env.REACT_APP_BACKEND_URL}/${dice[textures.length].profileImage}`;
-      img.src = images[textures.length];
-      img.onload = () => {
-        let ctx = document.createElement('canvas').getContext('2d');
-        ctx.canvas.width = 256;
-        ctx.canvas.height = 256;
-
-        ctx.beginPath();
-        ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = '#636e72';
-        ctx.fill();
-        ctx.closePath();
-
-        ctx.beginPath();
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          img.width,
-          img.height,
-          ctx.canvas.width * .05,
-          ctx.canvas.height * .05,
-          ctx.canvas.width * .9,
-          ctx.canvas.height * .9,
-        );
-        ctx.closePath();
-
+      if (dice.length > 1 && dice.length <= 6 && 6 % dice.length === 0) {
+        setTextures([...textures, dice[textures.length % dice.length].diceTexture]);
+      } else {
         setTextures([...textures, new CanvasTexture(ctx.canvas)]);
-      };
+      }
     }
-  }, [images, textures]);
+  }, [textures]);
 
   return <animated.mesh
     receiveShadow
