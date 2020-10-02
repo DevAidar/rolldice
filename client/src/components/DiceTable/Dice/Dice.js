@@ -289,7 +289,12 @@ const Dice = ({ setDice }) => {
     receiveShadow
     castShadow
     ref={ref}
-    onClick={() => setThrown(true)}
+    onClick={() => {
+      if (!thrown || landed) {
+        setThrown(true);
+        setLanded(false);
+      }
+    }}
   >
     <boxBufferGeometry attach="geometry" />
     {textures.map((texture, index) => (

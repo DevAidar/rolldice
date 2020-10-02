@@ -11,8 +11,8 @@ require('dotenv').config();
 require('./config/db');
 
 const app = express();
-const publicPath = path.join(__dirname, '..', 'build');
-const uploadsPath = path.join(__dirname, '..', 'uploads');
+const publicPath = path.join(__dirname, 'client' ,'build');
+const uploadsPath = path.join(__dirname, 'uploads');
 const port = process.env.PORT || 5000;
 
 app.use(morgan('common'));

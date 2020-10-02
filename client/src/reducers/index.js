@@ -1,6 +1,6 @@
-// import {
-// 	FETCH_VIRUS_DATA,
-// } from '../constants';
+import {
+	FETCH_USERS,
+} from '../constants';
 
 const INITIAL_STATE = {
 	dice: [],
@@ -8,11 +8,14 @@ const INITIAL_STATE = {
 	username: '',
 	gameStarted: false,
 	diceLanded: false,
-	gameFinished: false,
+  gameFinished: false,
+  opponents: [],
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+  case FETCH_USERS:
+    return { ...state };
 	default:
 		return { ...state };
 	}

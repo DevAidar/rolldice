@@ -1,8 +1,26 @@
-// import {
-// 	FETCH_VIRUS_DATA,
-// } from '../constants';
+import {
+	FETCH_USERS,
+} from '../constants';
 
 import axios from 'axios';
+
+const fetchUsers = (to, from) => (dispatch) => {
+  axios
+    .get(`http://localhost:5000/users?to=${to}&from${from}`)
+    .then((res) => dispatch({
+      type: FETCH_USERS,
+      usersData: res,
+    }))
+    .catch((res) => {
+      console.log(res);
+      return dispatch({
+        type: FETCH_USERS,
+        usersData: {
+          status: 404,
+        },
+      })
+    })
+}
 
 // const fetchVirusData = () => (dispatch) => {
 // 	axios
@@ -24,6 +42,6 @@ import axios from 'axios';
 // 		});
 // };
 
-// export {
-// 	fetchVirusData,
-// };
+export {
+	fetchUsers
+};

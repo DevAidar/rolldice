@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 
-const { index, create, getById, update, remove, login } = require('../controllers/users-controllers');
+const { index, create, getById, update, remove, login, amount } = require('../controllers/users-controllers');
 const { registerUserValidation, checkIfEmailExists, loginValidation } = require('../utils/validations');
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
 const { checkEmail, checkPassword, createToken } = require('../utils/auth');
@@ -45,6 +45,12 @@ router.post('/', upload.single('profileImage'), registerUserValidation, checkIfE
  * post: login email and password :: login
  */
 router.post('/login', loginValidation, checkEmail, checkPassword, createToken, login);
+
+/**
+ * '/amount' - get
+ * get: return the amount :: amount 
+ */
+router.get('/amount', amount);
 
 /**
  * '/:id' get put

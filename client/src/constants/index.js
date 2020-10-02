@@ -1,1 +1,1 @@
-// export const FETCH_VIRUS_DATA = 'FETCH_VIRUS_DATA';
+export const FETCH_USERS = 'FETCH_USERS';
