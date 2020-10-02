@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { animated, useSpring } from 'react-spring/three';
+import { animated } from 'react-spring/three';
 import { useBox } from 'use-cannon';
 import { CanvasTexture } from 'three';
+import { useFrame } from 'react-three-fiber';
 
 import image1 from '../../../images/RoundIcons-Free-Set-01.png';
 import image2 from '../../../images/RoundIcons-Free-Set-02.png';
@@ -14,9 +15,8 @@ import image8 from '../../../images/RoundIcons-Free-Set-08.png';
 import image9 from '../../../images/RoundIcons-Free-Set-09.png';
 import image10 from '../../../images/RoundIcons-Free-Set-10.png';
 import image11 from '../../../images/RoundIcons-Free-Set-11.png';
-import { useFrame } from 'react-three-fiber';
 
-const Dice = ({ setDice }) => {
+const Dice = () => {
   const [thrown, setThrown] = useState(false);
   const [landed, setLanded] = useState(false);
   const [textures, setTextures] = useState([]);
@@ -27,7 +27,8 @@ const Dice = ({ setDice }) => {
     return {
       mass: 300,
       args: [1, 1, 1],
-      friction: 0.8,
+      friction: 10,
+      tolerance: 0,
     };
   });
 
@@ -46,165 +47,167 @@ const Dice = ({ setDice }) => {
     }
   }
 
-  const throwDice = useCallback((api, dicePosition) => {
+  const throwDice = (api, dicePosition) => {
     api.applyImpulse([0, 1000, 0], [Math.random() - .5, -.5, Math.random() - .5]);
     api.velocity.set(-((dicePosition[0]) * (Math.random() * 10)), 10, -((dicePosition[2]) * (Math.random() * 10)));
-  }, [api]);
+  };
 
-  const throwDiceUp = useCallback((api, ref) => {
+  const throwDiceUp = (api, ref) => {
     if (ref.current.position.y < 1) {
       api.applyImpulse([0, 500, 0], [0, 0, 0]);
       api.velocity.set(0, -10, 0);
     }
-  }, [api, ref]);
+  };
 
   const getUpSide = useCallback((api, ref, throwDiceUp) => {
-    if (parseInt(ref.current.rotation._x * 10) === -parseInt(Math.PI / 2 * 10)) {
-      if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
-        if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-          console.log(1.11);
+    if (ref.current.position.y <= .75) {
+      if (parseInt(ref.current.rotation._x * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+        if (parseInt(ref.current.rotation._y * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+          if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+            console.log(1.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+            console.log(2.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+            console.log(3.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+            console.log(4.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else {
+            throwDiceUp(api, ref);
+          }
+        } else if (parseInt(ref.current.rotation._y * 1000) === parseInt(Math.PI / 2 * 1000)) {
+          if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+            console.log(1.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+            console.log(2.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+            console.log(3.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+            console.log(4.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else {
+            throwDiceUp(api, ref);
+          }
+        } else if (Math.abs(parseInt(ref.current.rotation._y * 1000)) === 1 || !parseInt(ref.current.rotation._y * 1000)) {
+          console.log(5.1);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
           setLanded(true);
-        } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-          console.log(2.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-          console.log(3.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-          console.log(4.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else {
-          throwDiceUp(api, ref);
-        }
-      } else if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
-        if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-          console.log(1.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-          console.log(2.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-          console.log(3.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-          console.log(4.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else {
-          throwDiceUp(api, ref);
-        }
-      } else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
-        console.log(5.1);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
-        console.log(6.1);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else {
-        throwDiceUp(api, ref);
-      }
-    } else if (parseInt(ref.current.rotation._x * 10) === parseInt(Math.PI / 2 * 10)) {
-      if (parseInt(ref.current.rotation._y * 10) === parseInt(Math.PI / 2 * 10)) {
-        if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-          console.log(1.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-          console.log(2.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-          console.log(3.11);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-          console.log(4.11);
+        } else if (Math.abs(parseInt(ref.current.rotation._y * 1000)) === parseInt(Math.PI * 1000)) {
+          console.log(6.1);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
           setLanded(true);
         } else {
           throwDiceUp(api, ref);
         }
-      } else if (parseInt(ref.current.rotation._y * 10) === -parseInt(Math.PI / 2 * 10)) {
-        if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-          console.log(1.12);
+      } else if (parseInt(ref.current.rotation._x * 1000) === parseInt(Math.PI / 2 * 1000)) {
+        if (parseInt(ref.current.rotation._y * 1000) === parseInt(Math.PI / 2 * 1000)) {
+          if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+            console.log(1.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+            console.log(2.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+            console.log(3.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+            console.log(4.11);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else {
+            throwDiceUp(api, ref);
+          }
+        } else if (parseInt(ref.current.rotation._y * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+          if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+            console.log(1.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+            console.log(2.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+            console.log(3.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+            console.log(4.12);
+            setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+            setLanded(true);
+          } else {
+            throwDiceUp(api, ref);
+          }
+        } else if (Math.abs(parseInt(ref.current.rotation._y * 1000)) === 1 || !parseInt(ref.current.rotation._y * 1000)) {
+          console.log(6.2);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
           setLanded(true);
-        } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-          console.log(2.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-          console.log(3.12);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-          setLanded(true);
-        } else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-          console.log(4.12);
+        } else if (Math.abs(parseInt(ref.current.rotation._y * 1000)) === parseInt(Math.PI * 1000)) {
+          console.log(5.2);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
           setLanded(true);
         } else {
           throwDiceUp(api, ref);
         }
-      } else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === 1 || !parseInt(ref.current.rotation._y * 10)) {
-        console.log(6.2);
+      } else if (Math.abs(parseInt(ref.current.rotation._x * 1000)) === parseInt(Math.PI * 1000)) {
+        if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+          console.log(1.3);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._y * 10)) === parseInt(Math.PI * 10)) {
-        console.log(5.2);
+          setLanded(true);
+        } else if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+          console.log(2.3);
           setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
+          setLanded(true);
+        } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+          console.log(4.3);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+          console.log(3.3);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else {
+          throwDiceUp(api, ref);
+        }
+      } else if (Math.abs(parseInt(ref.current.rotation._x * 1000)) === 1 || !parseInt(ref.current.rotation._x * 1000)) {
+        if (parseInt(ref.current.rotation._z * 1000) === parseInt(Math.PI / 2 * 1000)) {
+          console.log(1.4);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else if (parseInt(ref.current.rotation._z * 1000) === -parseInt(Math.PI / 2 * 1000)) {
+          console.log(2.4);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === 1 || !parseInt(ref.current.rotation._z * 1000)) {
+          console.log(3.4);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else if (Math.abs(parseInt(ref.current.rotation._z * 1000)) === parseInt(Math.PI * 1000)) {
+          console.log(4.4);
+          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
+          setLanded(true);
+        } else {
+          throwDiceUp(api, ref);
+        }
       } else {
         throwDiceUp(api, ref);
       }
-    } else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === parseInt(Math.PI * 10)) {
-      if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-        console.log(1.3);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-        console.log(2.3);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-        console.log(4.3);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-        console.log(3.3);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else {
-        throwDiceUp(api, ref);
-      }
-    } else if (Math.abs(parseInt(ref.current.rotation._x * 10)) === 1 || !parseInt(ref.current.rotation._x * 10)) {
-      if (parseInt(ref.current.rotation._z * 10) === parseInt(Math.PI / 2 * 10)) {
-        console.log(1.4);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (parseInt(ref.current.rotation._z * 10) === -parseInt(Math.PI / 2 * 10)) {
-        console.log(2.4);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === 1 || !parseInt(ref.current.rotation._z * 10)) {
-        console.log(3.4);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else if (Math.abs(parseInt(ref.current.rotation._z * 10)) === parseInt(Math.PI * 10)) {
-        console.log(4.4);
-          setLandedRotation([ref.current.rotation._x, ref.current.rotation._y, ref.current.rotation._z]);
-        setLanded(true);
-      } else {
-        throwDiceUp(api, ref);
-      }
-    } else {
-      throwDiceUp(api, ref);
     }
   });
 
@@ -224,7 +227,7 @@ const Dice = ({ setDice }) => {
     }
     if (thrown && landed) {
       api.position.set(0, Math.min(window.innerWidth, window.innerHeight) / 15, 0);
-      
+
       api.rotation.set(...landedRotation);
 
       api.mass.set(0);
@@ -232,28 +235,33 @@ const Dice = ({ setDice }) => {
   });
 
   useEffect(() => {
+    if (!thrown && !landed)
+      api.velocity.subscribe(velocity => Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < .1
+        ? getUpSide(api, ref, throwDiceUp)
+        : null,
+      );
     if (thrown && !landed) {
       const dicePosition = placeDiceOnTheBorder();
       api.mass.set(300);
       api.position.set(...dicePosition);
 
       throwDice(api, dicePosition);
-      api.velocity.subscribe(velocity => Math.abs(velocity.reduce((sum, current) => sum += current, 0)) < .03
-        ? getUpSide(api, ref, throwDiceUp)
-        : null,
-      ); 
     }
     if (thrown && landed) {
       // setThrown(false);
       api.mass.set(0);
+      api.angularVelocity.set(0, 0, 0);
+      api.fixedRotation.set(...landedRotation);
+      api.velocity.set(0, 0, 0);
       api.position.set(0, Math.min(window.innerWidth, window.innerHeight) / 15, 0);
       api.rotation.set(...landedRotation);
     }
-  }, [thrown, landed]);
+  }, [thrown, landed, api, getUpSide, landedRotation, ref]);
 
   useEffect(() => {
     if (textures.length < 6) {
       let img = new Image();
+      // img.src = `${process.env.REACT_APP_BACKEND_URL}/${dice[textures.length].profileImage}`;
       img.src = images[textures.length];
       img.onload = () => {
         let ctx = document.createElement('canvas').getContext('2d');
@@ -294,6 +302,7 @@ const Dice = ({ setDice }) => {
         setThrown(true);
         setLanded(false);
       }
+      console.log(textures)
     }}
   >
     <boxBufferGeometry attach="geometry" />

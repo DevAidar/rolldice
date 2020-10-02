@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-import Header from '../../components/Header/Header';
 import DiceTable from '../../components/DiceTable/DiceTable';
 
-const Game = () => {
+const Game = ({ dice }) => {
   const [state, setState] = useState({ started: false, diceThrown: false });
 
   return (
-    <DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })} />
+    <DiceTable state={state} throwDice={() => setState({ ...state, diceThrown: true })} dice={dice} />
   );
 };
 
-export default Game;
+const mapStateToProps = (state) => ({
+  dice: state.dice,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

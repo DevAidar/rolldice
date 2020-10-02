@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 const GameInfoButton = () => {
-	const { location, push } = useHistory();
-	console.log(new useHistory());
+	const { location } = useHistory();
 
 	return (
 		<Link 

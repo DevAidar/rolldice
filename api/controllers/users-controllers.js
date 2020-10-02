@@ -9,9 +9,13 @@ const index = (req, res) => {
       else if (docs.length === 0) res.status(404).json({ message: 'There were no users found' });
       else {
         if (req.query.from) {
-          res.status(200).json(docs.slice(parseInt(req.query.from) - 1, req.query.amount ? parseInt(req.query.from) + parseInt(req.query.amount) - 1 : parseInt(req.query.from) + 9));
+          res.status(200).json(
+            docs
+              .slice(parseInt(req.query.from), req.query.amount ? parseInt(req.query.from) + parseInt(req.query.amount) : parseInt(req.query.from) + 10)
+              .map((elem) => ({_id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage:elem.profileImage}))
+          );
         } else {
-          res.status(200).json(docs);
+          res.status(200).json(docs.map((elem) => ({_id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage: elem.profileImage})));
         }
       }
     });

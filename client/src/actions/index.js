@@ -1,47 +1,41 @@
 import {
-	FETCH_USERS,
+  FETCH_USERS,
+  CLEAR_OPPONENTS,
+  SELECT_OPPONENT,
 } from '../constants';
 
 import axios from 'axios';
 
-const fetchUsers = (to, from) => (dispatch) => {
+const fetchUsers = (from, amount) => (dispatch) => {
+  console.log('sup')
   axios
-    .get(`http://localhost:5000/users?to=${to}&from${from}`)
+    .get(`http://localhost:5000/api/users?from=${from}&amount${amount}`)
     .then((res) => dispatch({
       type: FETCH_USERS,
-      usersData: res,
+      res: res,
     }))
     .catch((res) => {
       console.log(res);
       return dispatch({
         type: FETCH_USERS,
-        usersData: {
+        res: {
           status: 404,
         },
       })
     })
 }
 
-// const fetchVirusData = () => (dispatch) => {
-// 	axios
-// 		.get('https://api.covid19api.com/all')
-// 		.then((res) => {
-// 			return dispatch({
-// 				type: FETCH_VIRUS_DATA,
-// 				virusData: res,
-// 			});
-// 		})
-// 		.catch((res) => {
-// 			console.error(res);
-// 			return dispatch({
-// 				type: FETCH_VIRUS_DATA,
-// 				virusData: {
-// 					status: 404,
-// 				},
-// 			});
-// 		});
-// };
+const clearOpponents = () => ({
+  type: CLEAR_OPPONENTS
+});
+
+const selectOpponent = (id) => ({
+  type: SELECT_OPPONENT,
+  id: id,
+})
 
 export {
-	fetchUsers
+  fetchUsers,
+  clearOpponents,
+  selectOpponent,
 };

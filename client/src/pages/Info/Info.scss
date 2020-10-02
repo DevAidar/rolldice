@@ -13,10 +13,21 @@
 	margin: 1em 0;
 }
 
+.card-profile:hover,
+.custom-control-label:hover {
+	cursor: pointer;
+}
+
 .attendee-name {
 	display: flex;
 	padding-left: 0.5em;
 	margin: auto 0;
 	margin-left: 0.5em;
 	width: 100%;
+	overflow: hidden;
+}
+
+.attendee-username {
+	margin-left: 1em;
+	color: rgb(50, 160, 183);
 }
