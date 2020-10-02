@@ -40,7 +40,7 @@ const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, select
                     <span className='attendee-username'>@{opponent.username}</span>
                   </p>
                   <div className="custom-control custom-checkbox my-auto">
-                    <input defaultChecked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} type="checkbox" className="custom-control-input" />
+                    <input checked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} onChange={() => null} type="checkbox" className="custom-control-input" />
                     <label className="custom-control-label" />
                   </div>
                 </div>
