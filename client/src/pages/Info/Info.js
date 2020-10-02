@@ -29,7 +29,7 @@ const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, select
           <form>
             <div className='card-body py-0'>
               {opponents && opponents.length ? opponents.map((opponent) => (
-                <label
+                <div
                   className='card-profile'
                   key={`${opponent.username}-${opponent._id}`}
                   onClick={() => selectOpponent(opponent._id)}
@@ -40,10 +40,10 @@ const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, select
                     <span className='attendee-username'>@{opponent.username}</span>
                   </p>
                   <div className="custom-control custom-checkbox my-auto">
-                    <input checked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} onChange={() => null} type="checkbox" className="custom-control-input" />
+                    <input defaultChecked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} type="checkbox" className="custom-control-input" />
                     <label className="custom-control-label" />
                   </div>
-                </label>
+                </div>
               )) : null}
             </div>
           </form>

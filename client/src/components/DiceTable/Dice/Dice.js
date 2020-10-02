@@ -242,7 +242,7 @@ const Dice = ({ dice }) => {
   useFrame(() => {
     if (!thrown && !landed) {
       ref.current.position.x = 0;
-      ref.current.position.y = Math.min(window.innerWidth, window.innerHeight) / 15;
+      ref.current.position.y = Math.min(window.innerWidth, window.innerHeight) / 15 + 20;
       ref.current.position.z = 0;
 
       api.rotation.set(
@@ -254,7 +254,7 @@ const Dice = ({ dice }) => {
       api.mass.set(0);
     }
     if (thrown && landed) {
-      api.position.set(0, Math.min(window.innerWidth, window.innerHeight) / 15, 0);
+      api.position.set(0, Math.min(window.innerWidth, window.innerHeight) / 15 + 20, 0);
 
       api.rotation.set(...landedRotation);
 
