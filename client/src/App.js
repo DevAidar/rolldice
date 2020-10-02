@@ -5,6 +5,7 @@ import Game from './pages/Game/Game';
 import Info from './pages/Info/Info';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Header from './components/Header/Header';
+import Login from './pages/Login/Login';
 
 import './App.scss';
 
@@ -18,6 +19,9 @@ const App = () => {
         </Route>
         <Route path='/info'>
           <Info />
+        </Route>
+        <Route path='/accounts/login'>
+          <Login />
         </Route>
         <PageNotFound />
       </Switch>

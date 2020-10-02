@@ -11,7 +11,7 @@ import Wall from './Table/Wall/Wall';
 
 import './DiceTable.scss';
 
-const DiceTable = ({ state, throwDice, dice }) => {
+const DiceTable = ({ state, throwDice, dice, history }) => {
 	const CAMERA_HEIGHT = 100;
 	const GRAVITY = [0, -30, 0];
   
@@ -78,7 +78,7 @@ const DiceTable = ({ state, throwDice, dice }) => {
 					position={[-(dimensions.width / 2 - .2), CAMERA_HEIGHT / 2, 0]}
 					scale={[dimensions.height - .4, 1, 0]} 
 				/>
-				<Dice dice={dice}/>
+				<Dice dice={dice} history={history}/>
 			</Physics>
 
 			{/* lights #f0f5fb */}

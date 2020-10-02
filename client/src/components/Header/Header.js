@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import logo from '../../images/logo.png';
-import profileImg from '../../images/RoundIcons-Free-Set-01.png';
+import profileImg from '../../images/questionMark.png';
 
 import ThrowDiceButton from './ThrowDiceButton/ThrowDiceButton';
 import GameInfoButton from './GameInfoButton/GameInfoButton';
