@@ -6,6 +6,7 @@ import Info from './pages/Info/Info';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 
 import './App.scss';
 
@@ -22,6 +23,9 @@ const App = () => {
         </Route>
         <Route path='/accounts/login'>
           <Login />
+        </Route>
+        <Route path='/accounts/signup'>
+          <Signup />
         </Route>
         <PageNotFound />
       </Switch>

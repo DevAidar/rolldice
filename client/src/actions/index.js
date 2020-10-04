@@ -2,6 +2,7 @@ import {
   FETCH_USERS,
   CLEAR_OPPONENTS,
   SELECT_OPPONENT,
+  LOGIN,
 } from '../constants';
 
 import axios from 'axios';
@@ -34,8 +35,32 @@ const selectOpponent = (id) => ({
   id: id,
 })
 
+const login = (username, password) => (dispatch) => {
+  axios
+    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username, password: password })
+    .then((res) => {
+      // eslint-disable-next-line no-console
+      console.log(res);
+      return dispatch({
+        type: LOGIN,
+        login: res,
+      });
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err.response);
+      return dispatch({
+        type: LOGIN,
+        login: {
+          status: err.response.status,
+        },
+      });
+    });
+};
+
 export {
   fetchUsers,
   clearOpponents,
   selectOpponent,
+  login,
 };

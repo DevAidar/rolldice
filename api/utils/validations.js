@@ -26,6 +26,15 @@ const checkIfEmailExists = (req, res, next) => {
 		});
 };
 
+const checkIfUsernameExists = (req, res, next) => {
+  User.findOne({ username: req.body.username })
+		.exec((err, user) => {
+			if (err) res.status(500).json({ message: `There was an error: ${err}` });
+			else if (!user) next();
+			else res.status(400).json({ error: 'Email already exists.' });
+		});
+}
+
 const loginValidation = (req, res, next) => {
 	const loginSchema = Joi.object({
 		email: Joi.string().min(6).required().email(),
@@ -38,4 +47,4 @@ const loginValidation = (req, res, next) => {
 	else next();
 };
 
-module.exports = { registerUserValidation, checkIfEmailExists, loginValidation };
+module.exports = { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation };

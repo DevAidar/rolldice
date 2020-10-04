@@ -25,7 +25,7 @@ const Header = ({ shown, isLoggedIn }) => {
 						<i className='fa fa-info-circle navbar-info-icon'/>
 						<img src={profileImg} alt='' className='navbar-profile-img'/>
 					</Link>
-					: <p className='navbar-text'>Sign Up</p>
+					: <Link className='navbar-text' to='/accounts/login'>Login</Link>
 				}
 			</div>
 		</nav>
