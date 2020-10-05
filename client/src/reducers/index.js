@@ -3,27 +3,20 @@ import {
   FETCH_USERS,
   CLEAR_OPPONENTS,
   SELECT_OPPONENT,
+  LOGIN,
 } from '../constants';
 
 const INITIAL_STATE = {
-  dice: [
-    // {
-    //   _id: "5f76908b0a5139699ed783fc",
-    //   firstName: "Aidar",
-    //   lastName: "Nuriev",
-    //   username: "DevAidar",
-    //   profileImage: "uploads/2020-10-02T02:29:30.878ZDevAidar_logo.png"
-    // }
-  ],
+  dice: [],
   loggedIn: false,
+  loginError: '',
   username: '',
-  gameStarted: false,
-  diceLanded: false,
-  gameFinished: false,
+	token: '',
   opponents: [],
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
+  console.log(state);
   switch (action.type) {
     case FETCH_USERS:
       return { ...state, opponents: action.res.data };
@@ -62,7 +55,18 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         ctx.closePath();
       };
 
-      return { ...state, dice: [...state.dice, { ...state.opponents.find((opponent) => opponent._id === action.id), diceTexture: new CanvasTexture(ctx.canvas) }] }
+      return { 
+        ...state, 
+        dice: [...state.dice, { ...state.opponents.find((opponent) => opponent._id === action.id), diceTexture: new CanvasTexture(ctx.canvas) }] 
+      };
+    case LOGIN:
+      console.log('Action', action, action.login, action.token);
+      return {
+        ...state,
+        token: action.login.data ? action.login.data : '',
+        loggedIn: true,
+        loginError: action.error ? action.error : '',
+      };
     default:
       return { ...state };
   }

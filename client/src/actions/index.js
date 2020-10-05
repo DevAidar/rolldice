@@ -37,7 +37,7 @@ const selectOpponent = (id) => ({
 
 const login = (username, password) => (dispatch) => {
   axios
-    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username, password: password })
+    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username.toLowerCase(), password: password })
     .then((res) => {
       // eslint-disable-next-line no-console
       console.log(res);
@@ -54,6 +54,7 @@ const login = (username, password) => (dispatch) => {
         login: {
           status: err.response.status,
         },
+        error: err.response.data,
       });
     });
 };

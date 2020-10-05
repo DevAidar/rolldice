@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import logo from '../../images/logo.png';
@@ -32,4 +33,10 @@ const Header = ({ shown, isLoggedIn }) => {
 	);
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+	isLoggedIn: state.isLoggedIn,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

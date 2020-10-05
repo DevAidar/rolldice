@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { login } from '../../actions';
+
 import logo from '../../images/logo.png';
 
 import './Login.scss'
 
-const Login = () => {
+const Login = ({ login, token, loginError }) => {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 	const [isDisabled, setDisabled] = useState(false);
+  
+	const onSubmit = e => {
+    e.preventDefault();
+    
+		setPassword('');
+		setDisabled(true);
+
+		login(email.toLowerCase(), password);
+  };
+
+  useEffect(() => {
+    if (token || loginError)
+      setDisabled(false);
+    if (token)
+      history.push('/info');
+  }, [token, loginError])
 
   return (
     <div className='signup-card'>
       <img src={logo} alt='' className='signup-logo' />
       <p className='signup-text'>Login</p>
       <form className='login-form'
-        onSubmit={event => {
-          event.preventDefault();
-          // doLogin();
-          console.log('Nice try Bero')
-        }}
+        onSubmit={e => onSubmit(e)}
       >
         <input
           className='login-username-input login-input'
@@ -54,4 +71,13 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+	username: state.username,
+	token: state.token,
+});
+
+const mapDispatchToProps = {
+	login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -12,7 +12,7 @@ const checkEmail = (req, res, next) => {
 				next();
 			} else {
 				console.log({ error: `Invalid Username${process.env.NODE_ENV === 'production' ? ' or Password' : ''}` });
-				res.status(400).json({ error: `Invalid Username${process.env.NODE_ENV === 'production' ? ' or Password' : ''}` });
+				res.status(400).json(`Invalid Username${process.env.NODE_ENV === 'production' ? ' or Password' : ''}`);
 			};
 		});
 };
@@ -22,7 +22,7 @@ const checkEmail = (req, res, next) => {
 const checkPassword = async (req, res, next) => {
 	const validPass = await bcrypt.compare(req.body.password, req.body.curUser.password);
   
-	if (!validPass) return res.status(400).send({ error: `Invalid ${process.env.NODE_ENV === 'production' ? 'Username or Password' : 'Password'}` });
+	if (!validPass) return res.status(400).send(`Invalid ${process.env.NODE_ENV === 'production' ? 'Username or Password' : 'Password'}`);
 	next();
 };
 
