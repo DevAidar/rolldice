@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const RefreshToken = require('../models/refreshToken');
+const { token } = require('morgan');
 
 // Check if email is in out db
 const checkEmail = (req, res, next) => {
@@ -28,23 +30,51 @@ const checkPassword = async (req, res, next) => {
 
 const createToken = (req, res, next) => {
 	// eslint-disable-next-line no-underscore-dangle
-	const token = jwt.sign({ _id: req.body.curUser._id }, process.env.TOKEN_SECRET);
-	res.header('authToken', token).send(token);
+	const accessToken = jwt.sign({ _id: req.body.curUser._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' });
+  const refreshToken = jwt.sign({ _id: req.body.curUser._id }, process.env.REFRESH_TOKEN_SECRET);
+
+  RefreshToken.create({ refreshToken });
+  // save refresh token in the database
+	res.header({ accessToken: accessToken, refreshToken: refreshToken });
   
 	next();
 };
 
 const verifyToken = (req, res, next) => {
-	const token = req.header('authToken');
-	if (!token) return res.status(401).send('Access Denied');
+  const authHeader = req.headers('auth-token');
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).send('Access Denied');
 
 	try {
 		const verify = jwt.verify(token, process.env.TOKEN_SECRET);
 		req.user = verify;
 		next();
 	} catch (err) {
-		res.status(400).send('Invalid Token.');
+		res.status(403).send('Invalid Token.');
 	}
 };
 
-module.exports = { checkEmail, checkPassword, createToken, verifyToken };
+const updateToken = (req, res) => {
+  const refreshToken = req.headers['refresh-token'];
+  console.log(refreshToken)
+
+  if (!refreshToken) return res.status(401).send('Access Denied');
+  // if (!refreshTokens.includes(refreshToken)) return res.status(403).send('Access Denied');
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send('Invalid Token');
+    const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' })
+    res.header({ accessToken: accessToken }).send();
+  })
+}
+
+const logout = (req, res) => {
+  RefreshToken.findOneAndRemove({ refreshToken: req.headers['refresh-token'] }, (err) => {
+    console.log(err)
+    if (err) res.status(403).send('Invalid Token')
+    else res.status(204).send('Success');
+  })
+}
+
+module.exports = { checkEmail, checkPassword, createToken, verifyToken, updateToken, logout };

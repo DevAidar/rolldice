@@ -4,6 +4,7 @@ import {
   CLEAR_OPPONENTS,
   SELECT_OPPONENT,
   LOGIN,
+  FETCH_USER_DATA,
 } from '../constants';
 
 const INITIAL_STATE = {
@@ -11,6 +12,7 @@ const INITIAL_STATE = {
   loggedIn: false,
   loginError: '',
   username: '',
+  profileImage: '',
 	token: '',
   opponents: [],
 };
@@ -60,13 +62,19 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         dice: [...state.dice, { ...state.opponents.find((opponent) => opponent._id === action.id), diceTexture: new CanvasTexture(ctx.canvas) }] 
       };
     case LOGIN:
-      console.log('Action', action, action.login, action.token);
+      console.log('Action', action, action.login, action.token, action.error);
       return {
         ...state,
         token: action.login.data ? action.login.data : '',
-        loggedIn: true,
+        loggedIn: action.login.status === 200,
         loginError: action.error ? action.error : '',
       };
+    case FETCH_USER_DATA: 
+      return {
+        ...state,
+        username: action.data.username,
+        profileImage: action.data.profileImage,
+      }
     default:
       return { ...state };
   }

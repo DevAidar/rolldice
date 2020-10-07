@@ -11,21 +11,30 @@ import './Login.scss'
 const Login = ({ login, token, loginError }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
+  const [badEmail, setBadEmail] = useState(false);
   const [password, setPassword] = useState('');
-	const [isDisabled, setDisabled] = useState(false);
-  
-	const onSubmit = e => {
-    e.preventDefault();
-    
-		setPassword('');
-		setDisabled(true);
+  const [badPassword, setBadPassword] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
 
-		login(email.toLowerCase(), password);
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (password.length < 8) {
+      setBadPassword(true);
+    } else {
+      setBadPassword(false);
+    }
+
+    setPassword('');
+    setDisabled(true);
+
+    login(email.toLowerCase(), password);
   };
 
   useEffect(() => {
     if (token || loginError)
       setDisabled(false);
+
     if (token)
       history.push('/info');
   }, [token, loginError])
@@ -37,8 +46,9 @@ const Login = ({ login, token, loginError }) => {
       <form className='login-form'
         onSubmit={e => onSubmit(e)}
       >
+        <p className='error-message'>{badEmail ? 'Incorrect Email type' : null}</p>
         <input
-          className='login-username-input login-input'
+          className={`login-username-input login-input${badEmail ? ' bad-input' : ''}`}
           type='text'
           name='email'
           placeholder='Email'
@@ -46,14 +56,17 @@ const Login = ({ login, token, loginError }) => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        <p className='error-message'>{badPassword ? 'Password is too short' : null}</p>
         <input
-          className='login-password-input login-input'
+          className={`login-password-input login-input${badPassword ? ' bad-input' : ''}`}
           type='password'
           name='password'
           placeholder='Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <p className='error-message'>{loginError === 'Invalid Username or Password' && loginError}</p>
+
         <div className='submit-button'>
           <button
             className='btn btn-info login-button'
@@ -72,12 +85,12 @@ const Login = ({ login, token, loginError }) => {
 }
 
 const mapStateToProps = (state) => ({
-	username: state.username,
-	token: state.token,
+  loginError: state.loginError,
+  token: state.token,
 });
 
 const mapDispatchToProps = {
-	login,
+  login,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

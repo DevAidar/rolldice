@@ -4,7 +4,7 @@ const multer = require('multer');
 const { index, create, getById, update, remove, login, amount } = require('../controllers/users-controllers');
 const { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation } = require('../utils/validations');
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
-const { checkEmail, checkPassword, createToken } = require('../utils/auth');
+const { checkEmail, checkPassword, createToken, updateToken, logout } = require('../utils/auth');
 
 const storage = multer.diskStorage({
 	destination: (_, __, cb) => {
@@ -45,6 +45,13 @@ router.post('/', upload.single('profileImage'), registerUserValidation, checkIfE
  * post: login email and password :: login
  */
 router.post('/login', loginValidation, checkEmail, checkPassword, createToken, login);
+router.delete('/logout', logout);
+
+/**
+ * '/token' - post
+ * post: get a new access token
+ */
+router.post('/token', updateToken);
 
 /**
  * '/amount' - get

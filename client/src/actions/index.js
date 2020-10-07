@@ -47,8 +47,6 @@ const login = (username, password) => (dispatch) => {
       });
     })
     .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err.response);
       return dispatch({
         type: LOGIN,
         login: {

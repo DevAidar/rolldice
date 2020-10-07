@@ -10,7 +10,7 @@ import GameInfoButton from './GameInfoButton/GameInfoButton';
 
 import './Header.scss';
 
-const Header = ({ shown, isLoggedIn }) => {
+const Header = ({ shown, isLoggedIn, username, profileImage }) => {
 	return (
 		<nav className='container navbar'>
 			<Link to="/">
@@ -24,7 +24,7 @@ const Header = ({ shown, isLoggedIn }) => {
 				{ isLoggedIn 
 					? <Link to='/profile'>
 						<i className='fa fa-info-circle navbar-info-icon'/>
-						<img src={profileImg} alt='' className='navbar-profile-img'/>
+						<img src={profileImage} alt='' className='navbar-profile-img'/>
 					</Link>
 					: <Link className='navbar-text' to='/accounts/login'>Login</Link>
 				}
@@ -34,7 +34,9 @@ const Header = ({ shown, isLoggedIn }) => {
 };
 
 const mapStateToProps = (state) => ({
-	isLoggedIn: state.isLoggedIn,
+  isLoggedIn: state.isLoggedIn,
+  username: state.username,
+  profileImage: state.profileImage,
 });
 
 const mapDispatchToProps = {};
