@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(morgan('common')); 
 app.use(cors({
 	origin: process.env.CORS_ORIGIN,
-	exposedHeaders: ['access-token', 'refresh-token'],
+  exposedHeaders: ['access-token', 'refresh-token'],
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

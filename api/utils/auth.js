@@ -35,13 +35,13 @@ const createToken = (req, res, next) => {
 
   RefreshToken.create({ refreshToken });
   // save refresh token in the database
-	res.header({ accessToken: accessToken, refreshToken: refreshToken });
+	res.header({ 'access-token': accessToken, 'refresh-token': refreshToken });
   
 	next();
 };
 
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers('auth-token');
+  const authHeader = req.headers('access-token');
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.status(401).send('Access Denied');
