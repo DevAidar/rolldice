@@ -65,7 +65,7 @@ const updateToken = (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.status(403).send('Invalid Token');
     const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' })
-    res.header({ accessToken: accessToken }).send();
+    res.header({ 'access-token': accessToken }).send();
   })
 }
 

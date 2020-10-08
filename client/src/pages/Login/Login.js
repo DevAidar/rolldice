@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { login } from '../../actions';
+import { login, getAccessToken } from '../../actions';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 import logo from '../../images/logo.png';
 
 import './Login.scss'
 
-const Login = ({ login, token, loginError }) => {
+const Login = ({ login, accessToken, loginError, getAccessToken }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [badEmail, setBadEmail] = useState(false);
@@ -18,6 +20,14 @@ const Login = ({ login, token, loginError }) => {
 
   const onSubmit = e => {
     e.preventDefault();
+
+    if (email.indexOf('@') !== -1 && email.indexOf('.', email.indexOf('@'))) {
+      console.log(email);
+      setBadEmail(false);
+    } else {
+      console.log('email', email);
+      setBadEmail(true);
+    }
 
     if (password.length < 8) {
       setBadPassword(true);
@@ -32,12 +42,17 @@ const Login = ({ login, token, loginError }) => {
   };
 
   useEffect(() => {
-    if (token || loginError)
+    if (!accessToken && Cookies.get('refresh-token')) {
+      console.log('You might try to get in!')
+      getAccessToken(Cookies.get('refresh-token'));
+    }
+
+    if (accessToken || loginError)
       setDisabled(false);
 
-    if (token)
+    if (accessToken)
       history.push('/info');
-  }, [token, loginError])
+  }, [isDisabled, accessToken, loginError, getAccessToken])
 
   return (
     <div className='signup-card'>
@@ -86,11 +101,12 @@ const Login = ({ login, token, loginError }) => {
 
 const mapStateToProps = (state) => ({
   loginError: state.loginError,
-  token: state.token,
+  accessToken: state.accessToken,
 });
 
 const mapDispatchToProps = {
   login,
+  getAccessToken,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

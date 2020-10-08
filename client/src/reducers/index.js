@@ -5,6 +5,7 @@ import {
   SELECT_OPPONENT,
   LOGIN,
   FETCH_USER_DATA,
+  GET_ACCESS_TOKEN,
 } from '../constants';
 
 const INITIAL_STATE = {
@@ -13,7 +14,8 @@ const INITIAL_STATE = {
   loginError: '',
   username: '',
   profileImage: '',
-	token: '',
+  accessToken: '',
+  refreshToken: '',
   opponents: [],
 };
 
@@ -62,10 +64,9 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         dice: [...state.dice, { ...state.opponents.find((opponent) => opponent._id === action.id), diceTexture: new CanvasTexture(ctx.canvas) }] 
       };
     case LOGIN:
-      console.log('Action', action, action.login, action.token, action.error);
       return {
         ...state,
-        token: action.login.data ? action.login.data : '',
+        accessToken: action.login.headers ? action.login.headers['access-token'] : '',
         loggedIn: action.login.status === 200,
         loginError: action.error ? action.error : '',
       };
@@ -74,6 +75,11 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         ...state,
         username: action.data.username,
         profileImage: action.data.profileImage,
+      }
+    case GET_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.accessToken,
       }
     default:
       return { ...state };
