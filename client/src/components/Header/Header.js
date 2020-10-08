@@ -10,7 +10,7 @@ import GameInfoButton from './GameInfoButton/GameInfoButton';
 
 import './Header.scss';
 
-const Header = ({ shown, isLoggedIn, username, profileImage }) => {
+const Header = ({ shown, loggedIn, username, profileImage }) => {
 	return (
 		<nav className='container navbar'>
 			<Link to="/">
@@ -21,7 +21,7 @@ const Header = ({ shown, isLoggedIn, username, profileImage }) => {
 				<ThrowDiceButton/>
 			</div>
 			<div className='navbar-content'>
-				{ isLoggedIn 
+				{ loggedIn 
 					? <Link to='/profile'>
 						<i className='fa fa-info-circle navbar-info-icon'/>
 						<img src={profileImage} alt='' className='navbar-profile-img'/>
@@ -34,7 +34,7 @@ const Header = ({ shown, isLoggedIn, username, profileImage }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.isLoggedIn,
+  loggedIn: state.loggedIn,
   username: state.username,
   profileImage: state.profileImage,
 });

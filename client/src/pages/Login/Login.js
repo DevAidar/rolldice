@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { login, getAccessToken } from '../../actions';
+import { login, getAccessToken, getUserData } from '../../actions';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ import logo from '../../images/logo.png';
 
 import './Login.scss'
 
-const Login = ({ login, accessToken, loginError, getAccessToken }) => {
+const Login = ({ login, accessToken, loginError, getAccessToken, getUserData }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [badEmail, setBadEmail] = useState(false);
@@ -50,8 +50,10 @@ const Login = ({ login, accessToken, loginError, getAccessToken }) => {
     if (accessToken || loginError)
       setDisabled(false);
 
-    if (accessToken)
+    if (accessToken) {
+      getUserData(accessToken);
       history.push('/info');
+    }
   }, [isDisabled, accessToken, loginError, getAccessToken])
 
   return (
@@ -107,6 +109,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   login,
   getAccessToken,
+  getUserData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

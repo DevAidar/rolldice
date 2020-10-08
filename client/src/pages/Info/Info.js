@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { fetchUsers, clearOpponents, selectOpponent } from '../../actions';
 
 import './Info.scss';
 
-const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, selectOpponent }) => {
+const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOpponents, selectOpponent }) => {
   const [page, setPage] = useState(0);
   const [amountPerPage, setAmountPerPage] = useState(10);
   const [cleared, setCleared] = useState(false);
@@ -15,11 +16,12 @@ const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, select
       setCleared(true);
     }
     if (cleared && opponents && !opponents.length) {
-      fetchUsers(page * amountPerPage, amountPerPage);
+      fetchUsers(page * amountPerPage, amountPerPage, accessToken);
     }
   }, [cleared, opponents, amountPerPage, clearOpponents, fetchUsers, page])
 
-  return (
+  return accessToken 
+    ? (
     <>
       <div className='container'>
         <div className='card mt-4'>
@@ -50,10 +52,12 @@ const Info = ({ opponents, selectedOpponents, fetchUsers, clearOpponents, select
         </div>
       </div>
     </>
-  );
+  )
+  : <Redirect to='/accounts/login' />;
 };
 
 const mapStateToProps = (state) => ({
+  accessToken: state.accessToken,
   opponents: state.opponents,
   selectedOpponents: state.dice,
 });

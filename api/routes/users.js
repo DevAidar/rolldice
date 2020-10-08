@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const multer = require('multer');
 
-const { index, create, getById, update, remove, login, amount } = require('../controllers/users-controllers');
+const { index, create, getById, update, remove, login, amount, all } = require('../controllers/users-controllers');
 const { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation } = require('../utils/validations');
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
-const { checkEmail, checkPassword, createToken, updateToken, logout } = require('../utils/auth');
+const { checkEmail, checkPassword, createToken, updateToken, logout, verifyToken } = require('../utils/auth');
 
 const storage = multer.diskStorage({
 	destination: (_, __, cb) => {
@@ -34,11 +34,17 @@ const upload = multer({
 
 /** 
  * '/' - get & post
- * get: return all users :: index
+ * get: return user info by access token :: index
  * post: create new user :: create
 */
-router.get('/', index);
+router.get('/', verifyToken, index);
 router.post('/', upload.single('profileImage'), registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create);
+
+/**
+ * '/all' - get
+ * get: get all users :: index
+ */
+router.get('/all', verifyToken, all);
 
 /**
  * '/login' - post

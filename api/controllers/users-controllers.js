@@ -3,23 +3,34 @@ const User = require('../models/user');
 const login = (_, res) => res.status(200).json('Logged in!');
 
 const index = (req, res) => {
-  User.find()
-    .exec((err, docs) => {
-      if (err) res.status(500).json({ message: `There was an error with our database: ${err}!` });
-      else if (docs.length === 0) res.status(404).json({ message: 'There were no users found' });
-      else {
-        if (req.query.from) {
-          res.status(200).json(
-            docs
-              .slice(parseInt(req.query.from), req.query.amount ? parseInt(req.query.from) + parseInt(req.query.amount) : parseInt(req.query.from) + 10)
-              .map((elem) => ({_id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage:elem.profileImage}))
-          );
-        } else {
-          res.status(200).json(docs.map((elem) => ({_id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage: elem.profileImage})));
-        }
-      }
-    });
+  if (req.userId)
+    User.findById(req.userId)
+      .exec((err, user) => {
+        if (!user) res.status(404).json({ message: 'Could not find a user with that id.' });
+        else if (err) res.status(500).json({ message: `There was an error with our database: ${err}` });
+        else res.status(200).json({ firstName: user.firstName, lastName: user.lastName, username: user.username, profileImage: user.profileImage });
+      });
 };
+
+const all = (req, res) => {
+  User.find()
+      .exec((err, docs) => {
+        if (err) res.status(500).json({ message: `There was an error with our database: ${err}!` });
+        else if (docs.length === 0) res.status(404).json({ message: 'There were no users found' });
+        else {
+          if (req.query.from) {
+            res.status(200).json(
+              docs
+                .filter(user => user.id !== req.userId)
+                .slice(parseInt(req.query.from), req.query.amount ? parseInt(req.query.from) + parseInt(req.query.amount) : parseInt(req.query.from) + 10)
+                .map((elem) => ({ _id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage: elem.profileImage }))
+            );
+          } else {
+            res.status(200).json(docs.map((elem) => ({ _id: elem._id, firstName: elem.firstName, lastName: elem.lastName, username: elem.username, profileImage: elem.profileImage })));
+          }
+        }
+      });
+}
 
 const create = (req, res) => {
   const temp = {
@@ -63,4 +74,4 @@ const amount = (_, res) => {
     })
 }
 
-module.exports = { index, create, getById, update, remove, login, amount };
+module.exports = { index, create, getById, update, remove, login, amount, all };

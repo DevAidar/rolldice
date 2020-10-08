@@ -35,20 +35,21 @@ const createToken = (req, res, next) => {
 
   RefreshToken.create({ refreshToken });
   // save refresh token in the database
-	res.header({ 'access-token': accessToken, 'refresh-token': refreshToken });
+	res.header({ 'access-token': `Bearer ${accessToken}`, 'refresh-token': refreshToken });
   
 	next();
 };
 
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers('access-token');
+  const authHeader = req.query['access-token'];
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.status(401).send('Access Denied');
 
 	try {
-		const verify = jwt.verify(token, process.env.TOKEN_SECRET);
-		req.user = verify;
+    const verify = jwt.verify(token, process.env.TOKEN_SECRET);
+    console.log(verify)
+		req.userId = verify._id;
 		next();
 	} catch (err) {
 		res.status(403).send('Invalid Token.');
@@ -56,8 +57,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const updateToken = (req, res) => {
-  const refreshToken = req.headers['refresh-token'];
-  console.log(refreshToken)
+  const refreshToken = req.query['refresh-token'];
 
   if (!refreshToken) return res.status(401).send('Access Denied');
   // if (!refreshTokens.includes(refreshToken)) return res.status(403).send('Access Denied');
@@ -65,7 +65,7 @@ const updateToken = (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.status(403).send('Invalid Token');
     const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' })
-    res.header({ 'access-token': accessToken }).send();
+    res.header({ 'access-token': `Bearer ${accessToken}` }).send();
   })
 }
 
