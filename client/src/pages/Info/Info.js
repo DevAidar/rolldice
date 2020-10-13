@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { fetchUsers, clearOpponents, selectOpponent } from '../../actions';
 
 import './Info.scss';
@@ -9,6 +9,7 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
   const [page, setPage] = useState(0);
   const [amountPerPage, setAmountPerPage] = useState(10);
   const [cleared, setCleared] = useState(false);
+  const { location } = useHistory();
 
   useEffect(() => {
     if (!cleared) {
@@ -53,7 +54,10 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
       </div>
     </>
   )
-  : <Redirect to='/accounts/login' />;
+  : <Redirect to={{
+    pathname: '/accounts/login',
+    state: location.pathname,
+  }} />
 };
 
 const mapStateToProps = (state) => ({

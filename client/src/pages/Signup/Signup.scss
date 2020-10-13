@@ -13,16 +13,30 @@
 	height: auto;
 }
 
-.login-label {
+.signup-label {
 	font-size: 1.5rem;
 	text-align: center;
 	color: #16191c;
 	margin-top: 0;
 }
 
-input.login-input {
-	width: min(90%, 400px);
-	display: block;
+.name-inputs {
+	width: min(90%, 500px);
+	display: flex;
+	margin: 1em auto;
+	justify-content: space-between;
+	align-content: space-between;
+}
+
+.name-input {
+	// margin-left: 1em;
+	width: 48% !important;
+	margin: 0 !important;
+}
+
+input.signup-input {
+	width: min(90%, 500px);
+	// display: block;
 	background: #f7f7f7;
 	border-radius: 4px;
 	border: 1px solid #f7f7f7;
@@ -31,16 +45,36 @@ input.login-input {
 	font-weight: 500;
 	height: 44px;
 	padding: 0 0.25rem 0 0.75rem;
-	margin: 1em auto 1em auto;
+	margin: 0 auto 1em auto;
 	outline: none;
 	transition: 200ms ease-in-out;
 }
 
-input.login-input:hover {
+.signup-password-input {
+	padding-right: 3.5em !important;
+}
+
+.password-show {
+	// position: absolute;
+	// margin-top: 13px;
+	// margin-top: -36px;
+	margin-right: 0.75em;
+	margin-left: -3.5em;
+	text-align: right;
+	color: rgb(101, 107, 115);
+	font-weight: 500;
+	font-size: 12px;
+}
+
+.password-show:hover {
+	cursor: pointer;
+}
+
+input.signup-input:hover {
 	border-color: rgb(50, 160, 183);
 }
 
-input.login-input:focus {
+input.signup-input:focus {
 	border-color: transparent;
 	border-bottom-color: rgb(50, 160, 183);
 	box-shadow: 0 1px 0 0 rgb(50, 160, 183);
@@ -59,7 +93,7 @@ input.login-input:focus {
 	box-shadow: 0 1px 0 0 #d12828 !important;
 }
 
-button.login-button {
+button.signup-button {
 	box-shadow: none;
 	padding: 11px 24px 10px;
 	font-size: 14px;
@@ -92,11 +126,28 @@ span.sign-up-label {
 
 .sign-up-button:hover {
 	border-bottom: 2px solid rgb(50, 160, 183);
-	text-decoration: none;
 	color: black;
 }
 
 .signup-text {
 	font-size: 3em;
 	font-weight: 700;
+}
+
+.name-error-message {
+	color: rgb(225, 20, 61);
+	font-size: 12px;
+	text-align: left;
+	width: min(90%, 500px);
+	padding: 0 0.5em;
+	margin: 1em auto;
+}
+
+.error-message {
+	color: rgb(225, 20, 61);
+	font-size: 12px;
+	text-align: left;
+	width: min(90%, 500px);
+	padding: 0 0.5em;
+	margin: 0 auto 1em;
 }

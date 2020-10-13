@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { login, getAccessToken, getUserData } from '../../actions';
 import Cookies from 'js-cookie';
-import axios from 'axios';
 
 import logo from '../../images/logo.png';
 
@@ -12,6 +11,7 @@ import './Login.scss'
 
 const Login = ({ login, accessToken, loginError, getAccessToken, getUserData }) => {
   const history = useHistory();
+  console.log('New History', history, history.location.state);
   const [email, setEmail] = useState('');
   const [badEmail, setBadEmail] = useState(false);
   const [password, setPassword] = useState('');
@@ -52,7 +52,7 @@ const Login = ({ login, accessToken, loginError, getAccessToken, getUserData }) 
 
     if (accessToken) {
       getUserData(accessToken);
-      history.push('/info');
+      history.push(history.location.state || '/info');
     }
   }, [isDisabled, accessToken, loginError, getAccessToken])
 

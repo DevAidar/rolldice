@@ -18,7 +18,7 @@ const registerUserValidation = (req, res, next) => {
 
 const checkIfEmailExists = (req, res, next) => {
 	// Take in an email from req body, check if email exists in db
-	User.findOne({ email: req.body.email })
+	User.findOne({ email: req.body.email.toLowerCase() })
 		.exec((err, user) => {
 			if (err) res.status(500).json({ message: `There was an error: ${err}` });
 			else if (!user) next();
@@ -31,7 +31,7 @@ const checkIfUsernameExists = (req, res, next) => {
 		.exec((err, user) => {
 			if (err) res.status(500).json({ message: `There was an error: ${err}` });
 			else if (!user) next();
-			else res.status(400).json({ error: 'Email already exists.' });
+			else res.status(400).json({ error: 'Username already exists.' });
 		});
 }
 

@@ -10,6 +10,7 @@ const index = (req, res) => {
         else if (err) res.status(500).json({ message: `There was an error with our database: ${err}` });
         else res.status(200).json({ firstName: user.firstName, lastName: user.lastName, username: user.username, profileImage: user.profileImage });
       });
+  else res.status(404).json({ message: 'Could not find a user with that id.' });
 };
 
 const all = (req, res) => {
@@ -32,15 +33,15 @@ const all = (req, res) => {
       });
 }
 
-const create = (req, res) => {
-  const temp = {
-    ...req.body,
-    profileImage: req.file.path,
-  };
-  console.log(temp);
-  User.create(temp)
-    .then((user) => res.status(200).json(user))
-    .catch((err) => res.status(500).json({ Error: err.message }));
+const create = (req, res, next) => {
+  req.body.email = req.body.email.toLowerCase();
+  
+  User.create(req.body)
+    .then((user) => {
+      req.body.curUser = { _id: user._id };
+      next();
+    })
+    .catch((err) => res.status(500).json({ error: err.message }));
 };
 
 const getById = (req, res) => {

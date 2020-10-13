@@ -5,6 +5,7 @@ import {
   LOGIN,
   GET_ACCESS_TOKEN,
   GET_USER_DATA,
+  REMOVE_ACCESS_TOKEN,
 } from '../constants';
 import Cookies from 'js-cookie';
 
@@ -19,7 +20,6 @@ const fetchUsers = (from, amount, accessToken) => (dispatch) => {
       res: res,
     }))
     .catch((res) => {
-      console.log(res);
       return dispatch({
         type: FETCH_USERS,
         res: {
@@ -42,9 +42,6 @@ const login = (username, password) => (dispatch) => {
   axios
     .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username.toLowerCase(), password: password })
     .then((res) => {
-      // eslint-disable-next-line no-console
-      console.log(res);
-      
       Cookies.set('refresh-token', res.headers['refresh-token'], { expires: 30 });
 
       return dispatch({
@@ -53,13 +50,12 @@ const login = (username, password) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err.response)
       return dispatch({
         type: LOGIN,
         login: {
-          status: err.response.status,
+          status: err.response && err.response.status || 404,
         },
-        error: err.response.data,
+        error: err.response && err.response.data || '404 Error',
       });
     });
 };
@@ -73,7 +69,6 @@ const getAccessToken = (refreshToken) => (dispatch) => {
       accessToken: res.headers['access-token'],
     }))
     .catch((err) => {
-      console.error(err);
       Cookies.remove('refresh-token');
     })
 }
@@ -87,9 +82,35 @@ const getUserData = (accessToken) => (dispatch) => {
     }))
     .catch((err) => {
       if (err.response && err.response.status === 401)
-        console.log('trying to get new access token')
-      console.log(err.response)
+        dispatch({ type: REMOVE_ACCESS_TOKEN });
+      else Cookies.remove('refresh-token');
     })
+}
+
+const signup = (firstName, lastName, username, email, password) => (dispatch) => {
+  axios
+    .post(`http://localhost:5000/api/users`, {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    })
+    .then((res) => {
+      Cookies.set('refresh-token', res.headers['refresh-token'], { expires: 30 });
+
+      return dispatch({
+        type: LOGIN,
+        login: res,
+      });
+    })
+    .catch((err) => dispatch({
+      type: LOGIN,
+      login: {
+        status: err.response.status,
+      },
+      error: err.response.data,
+    }))
 }
 
 export {
@@ -99,4 +120,5 @@ export {
   login,
   getAccessToken,
   getUserData,
+  signup,
 };

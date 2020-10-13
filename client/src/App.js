@@ -9,6 +9,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 
 import './App.scss';
+import ImageUpload from './pages/ImageUpload/ImageUpload';
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
         </Route>
         <Route path='/accounts/signup'>
           <Signup />
+        </Route>
+        <Route path='/profile/image-upload'>
+          <ImageUpload />
         </Route>
         <PageNotFound />
       </Switch>

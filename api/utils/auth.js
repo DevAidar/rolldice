@@ -6,7 +6,7 @@ const { token } = require('morgan');
 
 // Check if email is in out db
 const checkEmail = (req, res, next) => {
-	User.findOne({ email: req.body.email })
+	User.findOne({ email: req.body.email.toLowerCase() })
 		.exec((err, user) => {
 			if (err) res.status(500).json({ message: `There was an error: ${err}` });
 			else if (user) {

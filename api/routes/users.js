@@ -38,7 +38,7 @@ const upload = multer({
  * post: create new user :: create
 */
 router.get('/', verifyToken, index);
-router.post('/', upload.single('profileImage'), registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create);
+router.post('/',/* upload.single('profileImage'), */ registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
 
 /**
  * '/all' - get
