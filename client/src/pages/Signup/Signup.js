@@ -12,6 +12,7 @@ import './Signup.scss';
 const Signup = ({ signup, accessToken, loginError, getAccessToken, getUserData }) => {
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  // variables
   const history = useHistory();
   const [firstName, setFirstName] = useState('');
   const [showFirstNameError, setShowFirstNameError] = useState(false);
