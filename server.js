@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const apiRouter = require('./api/api');
 
+require('localenv');
 require('dotenv').config();
 require('./config/db');
 
@@ -13,6 +14,8 @@ const app = express();
 const publicPath = path.join(__dirname, 'client' ,'build');
 const uploadsPath = path.join(__dirname, 'uploads');
 const port = process.env.PORT || 5000;
+
+console.log('Cors used: ', process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.CORS_ORIGIN)
 
 app.use(morgan('common')); 
 app.use(cors({
