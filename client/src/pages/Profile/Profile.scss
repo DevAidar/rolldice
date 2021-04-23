@@ -1,0 +1,28 @@
+.profile-card {
+	margin: 0 auto;
+	margin-top: 2em;
+	width: min(85%, 700px);
+	background-color: #fff;
+	// background-color: #8888;
+	border-radius: 0.25rem;
+	text-align: center;
+	padding: 1rem;
+}
+
+.main-text {
+	font-size: 3em;
+	font-weight: 500;
+}
+
+.profile-image {
+	height: 100px;
+	width: auto;
+	border-radius: 50%;
+	// border: 1px solid rgb(38, 38, 38);
+	background-color: rgb(192, 192, 192);
+}
+
+.profile-form {
+	display: flex;
+	flex-direction: column;
+}

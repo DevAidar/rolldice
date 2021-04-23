@@ -68,7 +68,7 @@ const getAccessToken = (refreshToken) => (dispatch) => {
       type: GET_ACCESS_TOKEN,
       accessToken: res.headers['access-token'],
     }))
-    .catch((err) => {
+    .catch(() => {
       Cookies.remove('refresh-token');
     })
 }

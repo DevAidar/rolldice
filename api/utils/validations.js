@@ -27,13 +27,13 @@ const checkIfEmailExists = (req, res, next) => {
 };
 
 const checkIfUsernameExists = (req, res, next) => {
-  User.findOne({ username: req.body.username })
+	User.findOne({ username: req.body.username })
 		.exec((err, user) => {
 			if (err) res.status(500).json({ message: `There was an error: ${err}` });
 			else if (!user) next();
 			else res.status(400).json({ error: 'Username already exists.' });
 		});
-}
+};
 
 const loginValidation = (req, res, next) => {
 	const loginSchema = Joi.object({

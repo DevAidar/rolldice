@@ -1,36 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Cropper from 'cropperjs';
 
-import img from '../../images/questionMark.png';
-
-import './ImageUpload.scss';
-import "cropperjs/dist/cropper.min.css";
-
-const ImageUpload = () => {
+const ImageEdit = ({ selectedImage }) => {
   const [imageDestination, setImageDestination] = useState('');
 
   const imageElement = useRef();
 
   useEffect(() => {
+    console.log(
+      imageElement.current.height,
+      imageElement.current.width,
+    )
     const cropper = new Cropper(imageElement.current, {
       zoomable: false,
       scalable: false,
-      aspectRatio: 1,
+      initialAspectRatio: 1,
       crop: () => {
         const canvas = cropper.getCroppedCanvas();
         setImageDestination(canvas.toDataURL("image/png"));
-      }
+      },
     })
   });
 
   return (
-    <div>
+    <>
       <div className='img-container'>
         <img
           ref={imageElement}
-          src={img}
+          src={URL.createObjectURL(selectedImage)}
           alt='Source'
-          crossOrigin
+          crossOrigin='true'
+          className='img-upload'
         />
       </div>
       <img
@@ -38,8 +38,8 @@ const ImageUpload = () => {
         className='img-preview'
         alt='Destination'
       />
-    </div>
+    </>
   )
-};
+}
 
-export default ImageUpload;
+export default ImageEdit;

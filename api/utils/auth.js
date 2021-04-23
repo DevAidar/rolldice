@@ -58,6 +58,7 @@ const verifyToken = (req, res, next) => {
 
 const updateToken = (req, res) => {
   const refreshToken = req.query['refresh-token'];
+  console.log(req.query);
 
   if (!refreshToken) return res.status(401).send('Access Denied');
   // if (!refreshTokens.includes(refreshToken)) return res.status(403).send('Access Denied');

@@ -7,9 +7,9 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
+import Profile from './pages/Profile/Profile';
 
 import './App.scss';
-import ImageUpload from './pages/ImageUpload/ImageUpload';
 
 const App = () => {
   return (
@@ -28,8 +28,8 @@ const App = () => {
         <Route path='/accounts/signup'>
           <Signup />
         </Route>
-        <Route path='/profile/image-upload'>
-          <ImageUpload />
+        <Route path='/profile'>
+          <Profile />
         </Route>
         <PageNotFound />
       </Switch>

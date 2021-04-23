@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const requiredString = {
 	type: String,
-	required: true, 
+	required: true,
 };
 
 const { Schema } = mongoose;
@@ -30,8 +30,15 @@ const userSchema = new Schema({
 		trim: true,
 	},
 	profileImage: {
-    type: String,
+		type: Schema.Types.ObjectId,
+		ref: 'Images',
 	},
+	images: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Images',
+		},
+	],
 });
 
 const User = mongoose.model('User', userSchema);

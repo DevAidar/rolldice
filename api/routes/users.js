@@ -6,39 +6,13 @@ const { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, login
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
 const { checkEmail, checkPassword, createToken, updateToken, logout, verifyToken } = require('../utils/auth');
 
-const storage = multer.diskStorage({
-	destination: (_, __, cb) => {
-		cb(null, './uploads');
-	},
-	filename: (_, file, cb) => {
-		cb(null, new Date().toISOString() + file.originalname);
-	},
-});
-
-const fileFilter = (_, file, cb) => {
-	// reject a file
-	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-		cb(null, true);
-	} else {
-		cb(null, false);
-	}
-};
-
-const upload = multer({
-	storage: storage,
-	limits: {
-		fileSize: 1024 * 1024 * 5,
-	},
-	fileFilter: fileFilter,
-});
-
 /** 
  * '/' - get & post
  * get: return user info by access token :: index
  * post: create new user :: create
 */
 router.get('/', verifyToken, index);
-router.post('/',/* upload.single('profileImage'), */ registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
+router.post('/', multer().array(), registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
 
 /**
  * '/all' - get

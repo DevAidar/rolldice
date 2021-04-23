@@ -1,6 +1,6 @@
 .img-container {
-	width: 640px;
-	height: 480px;
+	width: 500px;
+	height: auto;
 	float: left;
 }
 
@@ -9,6 +9,7 @@
 	height: 200px;
 	float: left;
 	margin-left: 10px;
+	border-radius: 50%;
 }
 
 .cropper-view-box {
@@ -23,4 +24,15 @@
 
 .cropper-view-box {
 	outline: inherit !important;
+}
+
+#upload-photo {
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
+}
+
+.img-upload {
+	width: 500px;
+	height: auto;
 }
