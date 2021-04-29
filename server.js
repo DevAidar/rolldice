@@ -15,11 +15,11 @@ const publicPath = path.join(__dirname, 'client' ,'build');
 const uploadsPath = path.join(__dirname, 'uploads');
 const port = process.env.PORT || 5000;
 
-console.log('Cors used: ', process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.CORS_ORIGIN)
+console.log('Cors used: ', process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : process.env.CORS_ORIGIN)
 
 app.use(morgan('common')); 
 app.use(cors({
-	origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.CORS_ORIGIN, 
+	origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : process.env.CORS_ORIGIN, 
 	exposedHeaders: ['access-token', 'refresh-token'],
 }));
 app.use(bodyParser.json());

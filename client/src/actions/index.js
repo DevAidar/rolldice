@@ -39,6 +39,8 @@ const selectOpponent = (id) => ({
 })
 
 const login = (username, password) => (dispatch) => {
+  console.log('Process Environments', process.env);
+  console.log('Process Environment', process.env.NODE_ENV);
   axios
     .post(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users/login`, { email: username.toLowerCase(), password: password })
     .then((res) => {
