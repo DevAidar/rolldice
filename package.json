@@ -27,7 +27,8 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"install-client": "cd client && yarn",
-		"heroku-postbuild": "yarn run install-client && cd client && yarn build"
+		"build-client": "cd client && npx browserslist@latest --update-db && yarn build",
+		"heroku-postbuild": "yarn run install-client && yarn run build-client"
 	},
 	"engines": {
 		"node": ">=10.6.0"
