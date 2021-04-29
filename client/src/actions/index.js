@@ -14,7 +14,7 @@ import axios from 'axios';
 const fetchUsers = (from, amount, accessToken) => (dispatch) => {
   console.log('sup')
   axios
-    .get(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users/all?from=${from}&amount${amount}&access-token=${accessToken}`)
+    .get(`https://roll-dice-app.herokuapp.com/api/users/all?from=${from}&amount${amount}&access-token=${accessToken}`)
     .then((res) => dispatch({
       type: FETCH_USERS,
       res: res,
@@ -39,10 +39,8 @@ const selectOpponent = (id) => ({
 })
 
 const login = (username, password) => (dispatch) => {
-  console.log('Process Environments', process.env);
-  console.log('Process Environment', process.env.NODE_ENV);
   axios
-    .post(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users/login`, { email: username.toLowerCase(), password: password })
+    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username.toLowerCase(), password: password })
     .then((res) => {
       Cookies.set('refresh-token', res.headers['refresh-token'], { expires: 30 });
 
@@ -65,7 +63,7 @@ const login = (username, password) => (dispatch) => {
 const getAccessToken = (refreshToken) => (dispatch) => {
   console.log('TRYING', refreshToken)
   axios
-    .post(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users/token?refresh-token=${refreshToken}`)
+    .post(`https://roll-dice-app.herokuapp.com/api/users/token?refresh-token=${refreshToken}`)
     .then((res) => dispatch({
       type: GET_ACCESS_TOKEN,
       accessToken: res.headers['access-token'],
@@ -77,7 +75,7 @@ const getAccessToken = (refreshToken) => (dispatch) => {
 
 const getUserData = (accessToken) => (dispatch) => {
   axios
-    .get(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users?access-token=${accessToken}`)
+    .get(`https://roll-dice-app.herokuapp.com/api/users?access-token=${accessToken}`)
     .then((res) => dispatch({
       type: GET_USER_DATA,
       login: res,
@@ -91,7 +89,7 @@ const getUserData = (accessToken) => (dispatch) => {
 
 const signup = (firstName, lastName, username, email, password) => (dispatch) => {
   axios
-    .post(`${process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://roll-dice-app.herokuapp.com'}/api/users`, {
+    .post(`https://roll-dice-app.herokuapp.com/api/users`, {
       firstName,
       lastName,
       username,

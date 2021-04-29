@@ -43,8 +43,9 @@ const loginValidation = (req, res, next) => {
   
 	const { error } = loginSchema.validate(req.body);
 
-	if (error) res.status(400).send(error.details[0].message);
-	else next();
+	if (error) return res.status(400).send(error.details[0].message);
+	
+  next();
 };
 
 module.exports = { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation };
