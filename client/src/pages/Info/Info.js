@@ -37,7 +37,7 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
                   key={`${opponent.username}-${opponent._id}`}
                   onClick={() => selectOpponent(opponent._id)}
                 >
-                  <img src={'https://roll-dice-app.herokuapp.com/' + opponent.profileImage} alt='' className='card-profile-img' />
+                  <img src={'https://dice-profile-image-store.herokuapp.com/' + opponent.profileImage} alt='' className='card-profile-img' />
                   <p className='attendee-name'>
                     {`${opponent.firstName}`}
                     <span className='attendee-username'>@{opponent.username}</span>

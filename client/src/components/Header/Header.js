@@ -27,7 +27,7 @@ const Header = ({ shown, loggedIn, username, profileImage }) => {
           ? <>
             <i className='fa fa-info-circle navbar-info-icon' />
             {profileImage && <Link to='/profile'>
-              <img src={'https://roll-dice-app.herokuapp.com/' + profileImage} alt='' className='navbar-profile-img' />
+              <img src={`https://dice-profile-image-store.herokuapp.com/${profileImage}`} alt='' className='navbar-profile-img' />
             </Link>}
           </>
           : location.pathname === '/accounts/login'

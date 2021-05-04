@@ -12,7 +12,7 @@ const Profile = () => {
   return (
     <div className='profile-card'>
       <p className='main-text'>Profile</p>
-      <img src={profileImage} className='profile-image' alt='' onClick={() => setShowProfileImageEdit(true)} />
+      <img src={`https://dice-profile-image-store.herokuapp.com/${profileImage}`} className='profile-image' alt='' onClick={() => setShowProfileImageEdit(true)} />
       {showProfileImageEdit && <ImageUpload />}
       <form className='profile-form'>
         <div className='profile-row'>
