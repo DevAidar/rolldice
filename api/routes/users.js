@@ -37,13 +37,13 @@ router.post('/token', updateToken);
  * '/amount' - get
  * get: return the amount :: amount 
  */
-router.get('/amount', verifyToken, amount);
+router.get('/amount', amount);
 
 /**
  * '/images' - get
  * get: return all the images associated to the user :: images 
  */
-router.get('/images', images);
+router.get('/images', verifyToken, images);
 
 /**
  * '/:id' get put
