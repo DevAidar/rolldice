@@ -48,7 +48,6 @@ const verifyToken = (req, res, next) => {
 
 	try {
     const verify = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(verify)
 		req.userId = verify._id;
 		next();
 	} catch (err) {
@@ -71,11 +70,12 @@ const updateToken = (req, res) => {
 }
 
 const logout = (req, res) => {
-  RefreshToken.findOneAndRemove({ refreshToken: req.headers['refresh-token'] }, (err) => {
-    console.log(err)
-    if (err) res.status(403).send('Invalid Token')
-    else res.status(204).send('Success');
-  })
+  RefreshToken.deleteMany({ refreshToken: req.headers['refresh-token'] })
+    .then(() => res.status(203).send('Success'))
+    .catch((err) => {
+      console.log('err', err);
+      res.status(500).send('There was an error, try again later');
+    });
 }
 
 module.exports = { checkEmail, checkPassword, createToken, verifyToken, updateToken, logout };

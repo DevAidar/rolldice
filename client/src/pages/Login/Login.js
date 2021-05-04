@@ -38,7 +38,7 @@ const Login = ({ login, accessToken, loginError, getAccessToken, getUserData }) 
     setPassword('');
     setDisabled(true);
 
-    login(email.toLowerCase(), password);
+    login(email.toLowerCase().trim(), password);
   };
 
   useEffect(() => {

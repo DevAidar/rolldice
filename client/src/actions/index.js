@@ -38,9 +38,9 @@ const selectOpponent = (id) => ({
   id: id,
 })
 
-const login = (username, password) => (dispatch) => {
+const login = (email, password) => (dispatch) => {
   axios
-    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: username.toLowerCase(), password: password })
+    .post(`https://roll-dice-app.herokuapp.com/api/users/login`, { email: email.toLowerCase().trim(), password: password })
     .then((res) => {
       Cookies.set('refresh-token', res.headers['refresh-token'], { expires: 30 });
 

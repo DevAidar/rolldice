@@ -12,7 +12,7 @@ const { checkEmail, checkPassword, createToken, updateToken, logout, verifyToken
  * post: create new user :: create
 */
 router.get('/', verifyToken, index);
-router.post('/', multer().array(), registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
+router.post('/', registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
 
 /**
  * '/all' - get
@@ -45,8 +45,8 @@ router.get('/amount', amount);
  * put: will edit user with id :: update
  * delete: remove user with id :: remove
  */ 
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', remove);
+router.get('/:id', verifyToken, getById);
+router.put('/:id', verifyToken, update);
+router.delete('/:id', verifyToken, remove);
 
 module.exports = router;
