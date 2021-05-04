@@ -11,7 +11,7 @@ const index = (req, res) => {
       if (!user) return res.status(404).json({ message: 'Could not find a user with that id.' });
       if (err) return res.status(500).json({ message: `There was an error with our database: ${err}` });
       
-      res.status(200).json({ firstName: user.firstName, lastName: user.lastName, username: user.username, profileImage: user.profileImage, userId: req.userId, images: user.images });
+      res.status(200).json({ firstName: user.firstName, lastName: user.lastName, username: user.username, profileImage: user.profileImage, userId: req.userId });
     });
 };
 
@@ -82,4 +82,17 @@ const amount = (_, res) => {
 		});
 };
 
-module.exports = { index, create, getById, update, remove, login, amount, all };
+const images = (req, res) => {
+  if (!req.userId)
+    return res.status(404).json({ message: 'Could not find a user with that id.' });
+  
+  User.findById(req.userId)
+    .exec((err, user) => {
+      if (!user) return res.status(404).json({ message: 'Could not find a user with that id.' });
+      if (err) return res.status(500).json({ message: `There was an error with our database: ${err}` });
+      
+      res.status(200).json({ images: user.images });
+    });
+};
+
+module.exports = { index, create, getById, update, remove, login, amount, images, all };

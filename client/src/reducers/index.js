@@ -6,6 +6,7 @@ import {
   LOGIN,
   FETCH_USER_DATA,
   GET_ACCESS_TOKEN,
+  GET_USER_IMAGES,
   GET_USER_DATA,
   REMOVE_ACCESS_TOKEN,
 } from '../constants';
@@ -14,10 +15,11 @@ const INITIAL_STATE = {
   dice: [],
   loggedIn: false,
   loginError: '',
+  userId: '',
   username: '',
   profileImage: '',
   accessToken: '',
-  opponents: [],
+  opponents: []
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
@@ -92,8 +94,13 @@ const rootReducer = (state = INITIAL_STATE, action) => {
       });
       return {
         ...state,
+        userId: action.login.data.userId,
         username: action.login.data.username,
         profileImage: action.login.data.profileImage,
+      }
+    case GET_USER_IMAGES:
+      return {
+        images: action.userImages.data.images,
       }
     case REMOVE_ACCESS_TOKEN: 
       return {

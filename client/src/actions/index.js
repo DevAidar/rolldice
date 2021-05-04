@@ -6,6 +6,7 @@ import {
   GET_ACCESS_TOKEN,
   GET_USER_DATA,
   REMOVE_ACCESS_TOKEN,
+  GET_USER_IMAGES,
 } from '../constants';
 import Cookies from 'js-cookie';
 
@@ -84,6 +85,18 @@ const getUserData = (accessToken) => (dispatch) => {
       if (err.response && err.response.status === 401)
         dispatch({ type: REMOVE_ACCESS_TOKEN });
       else Cookies.remove('refresh-token');
+    })
+}
+
+const getUserImages = (accessToken) => (dispatch) => {
+  axios
+    .get(`https://roll-dice-app.herokuapp.com/api/users?access-token=${accessToken}`)
+    .then((res) => dispatch({
+      type: GET_USER_IMAGES,
+      userImages: res,
+    }))
+    .catch((err) => {
+      if (err) console.log(err);
     })
 }
 

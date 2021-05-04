@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 
-const { index, create, getById, update, remove, login, amount, all } = require('../controllers/users-controllers');
+const { index, create, getById, update, remove, login, amount, images, all } = require('../controllers/users-controllers');
 const { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation } = require('../utils/validations');
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
 const { checkEmail, checkPassword, createToken, updateToken, logout, verifyToken } = require('../utils/auth');
@@ -37,7 +37,13 @@ router.post('/token', updateToken);
  * '/amount' - get
  * get: return the amount :: amount 
  */
-router.get('/amount', amount);
+router.get('/amount', verifyToken, amount);
+
+/**
+ * '/images' - get
+ * get: return all the images associated to the user :: images 
+ */
+router.get('/images', images);
 
 /**
  * '/:id' get put
