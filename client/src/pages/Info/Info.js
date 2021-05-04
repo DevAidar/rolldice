@@ -22,13 +22,13 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
   }, [cleared, opponents, amountPerPage, clearOpponents, fetchUsers, page])
 
   return accessToken 
-    ? (
-    <>
+    ? profileImage
+      ? (
       <div className='container'>
         <div className='card mt-4'>
           <div className='card-header text-center bg-info text-white'>
             Choose your opponents
-					</div>
+          </div>
           <form>
             <div className='card-body py-0'>
               {opponents && opponents.length ? opponents.map((opponent) => (
@@ -52,8 +52,11 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
           </form>
         </div>
       </div>
-    </>
-  )
+    )
+    : <Redirect to={{
+      pathname: '/profile/image-upload',
+      state: location.pathname,
+    }} />
   : <Redirect to={{
     pathname: '/accounts/login',
     state: location.pathname,
@@ -61,6 +64,7 @@ const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOppo
 };
 
 const mapStateToProps = (state) => ({
+  profileImage: state.profileImage,
   accessToken: state.accessToken,
   opponents: state.opponents,
   selectedOpponents: state.dice,
