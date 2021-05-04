@@ -5,7 +5,7 @@ import { fetchUsers, clearOpponents, selectOpponent } from '../../actions';
 
 import './Info.scss';
 
-const Info = ({ accessToken, opponents, selectedOpponents, fetchUsers, clearOpponents, selectOpponent }) => {
+const Info = ({ accessToken, profileImage, opponents, selectedOpponents, fetchUsers, clearOpponents, selectOpponent }) => {
   const [page, setPage] = useState(0);
   const [amountPerPage, setAmountPerPage] = useState(10);
   const [cleared, setCleared] = useState(false);
