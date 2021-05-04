@@ -18,8 +18,9 @@ const INITIAL_STATE = {
   userId: '',
   username: '',
   profileImage: '',
+  images: [],
   accessToken: '',
-  opponents: []
+  opponents: [],
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
