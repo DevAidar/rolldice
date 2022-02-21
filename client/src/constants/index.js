@@ -8,3 +8,4 @@ export const GET_USER_IMAGES = 'GET_USER_IMAGES';
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const REMOVE_ACCESS_TOKEN = 'REMOVE_ACCESS_TOKEN';
 export const SIGNUP = 'SIGNUP';
+export const UPDATE_USER = 'UPDATE_USER';

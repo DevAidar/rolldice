@@ -9,8 +9,6 @@ const registerUserValidation = (req, res, next) => {
 		email: Joi.string().required().email(),
 		password: Joi.string().min(8).required(),
 	});
-
-  console.log(req.body);
   
 	const { error } = registerUserSchema.validate(req.body);
   
@@ -47,7 +45,7 @@ const loginValidation = (req, res, next) => {
 
 	if (error) return res.status(400).send(error.details[0].message);
 	
-  next();
+	next();
 };
 
 module.exports = { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation };

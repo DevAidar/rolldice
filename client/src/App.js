@@ -12,29 +12,29 @@ import Profile from './pages/Profile/Profile';
 import './App.scss';
 
 const App = () => {
-  return (
-    <>
-      <Header />
-      <Switch>
-        <Route exact path='/'>
-          <Game />
-        </Route>
-        <Route path='/info'>
-          <Info />
-        </Route>
-        <Route path='/accounts/login'>
-          <Login />
-        </Route>
-        <Route path='/accounts/signup'>
-          <Signup />
-        </Route>
-        <Route path='/profile'>
-          <Profile />
-        </Route>
-        <PageNotFound />
-      </Switch>
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<Switch>
+				<Route exact path='/'>
+					<Game />
+				</Route>
+				<Route path='/info'>
+					<Info />
+				</Route>
+				<Route path='/accounts/login'>
+					<Login />
+				</Route>
+				<Route path='/accounts/signup'>
+					<Signup />
+				</Route>
+				<Route path='/profile'>
+					<Profile />
+				</Route>
+				<PageNotFound />
+			</Switch>
+		</>
+	);
 };
 
 export default App;

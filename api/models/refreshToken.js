@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const refreshTokenSchema = new Schema({
 	refreshToken: {
 		type: String,
-		required: true, 
+		required: true,
 	},
 });
 

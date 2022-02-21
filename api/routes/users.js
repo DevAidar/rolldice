@@ -1,18 +1,21 @@
 const router = require('express').Router();
-const multer = require('multer');
 
-const { index, create, getById, update, remove, login, amount, images, all } = require('../controllers/users-controllers');
+const { index, create, update, remove, login, amount, images, all } = require('../controllers/users-controllers');
 const { registerUserValidation, checkIfEmailExists, checkIfUsernameExists, loginValidation } = require('../utils/validations');
 const { encryptPasswordOnRequest } = require('../utils/encrypt');
 const { checkEmail, checkPassword, createToken, updateToken, logout, verifyToken } = require('../utils/auth');
 
 /** 
- * '/' - get & post
+ * '/' - get, put, post & delete
  * get: return user info by access token :: index
+ * put: will edit user with id :: update
  * post: create new user :: create
+ * delete: remove user with id :: remove
 */
 router.get('/', verifyToken, index);
+router.put('/', verifyToken, update);
 router.post('/', registerUserValidation, checkIfEmailExists, checkIfUsernameExists, encryptPasswordOnRequest, create, createToken, login);
+router.delete('/', verifyToken, remove);
 
 /**
  * '/all' - get
@@ -44,15 +47,5 @@ router.get('/amount', amount);
  * get: return all the images associated to the user :: images 
  */
 router.get('/images', verifyToken, images);
-
-/**
- * '/:id' get put
- * get: is going to return user with id :: getById
- * put: will edit user with id :: update
- * delete: remove user with id :: remove
- */ 
-router.get('/:id', verifyToken, getById);
-router.put('/:id', verifyToken, update);
-router.delete('/:id', verifyToken, remove);
 
 module.exports = router;

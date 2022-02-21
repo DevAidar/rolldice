@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const RefreshToken = require('../models/refreshToken');
-const { token } = require('morgan');
+// const { token } = require('morgan');
 
 // Check if email is in out db
 const checkEmail = (req, res, next) => {
@@ -13,7 +13,6 @@ const checkEmail = (req, res, next) => {
 				req.body.curUser = user;
 				next();
 			} else {
-				console.log({ error: `Invalid Username${process.env.NODE_ENV === 'production' ? ' or Password' : ''}` });
 				res.status(400).json(`Invalid Username${process.env.NODE_ENV === 'production' ? ' or Password' : ''}`);
 			};
 		});
@@ -31,23 +30,23 @@ const checkPassword = async (req, res, next) => {
 const createToken = (req, res, next) => {
 	// eslint-disable-next-line no-underscore-dangle
 	const accessToken = jwt.sign({ _id: req.body.curUser._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' });
-  const refreshToken = jwt.sign({ _id: req.body.curUser._id }, process.env.REFRESH_TOKEN_SECRET);
+	const refreshToken = jwt.sign({ _id: req.body.curUser._id }, process.env.REFRESH_TOKEN_SECRET);
 
-  RefreshToken.create({ refreshToken });
-  // save refresh token in the database
+	RefreshToken.create({ refreshToken });
+	// save refresh token in the database
 	res.header({ 'access-token': `Bearer ${accessToken}`, 'refresh-token': refreshToken });
   
 	next();
 };
 
 const verifyToken = (req, res, next) => {
-  const authHeader = req.query['access-token'];
-  const token = authHeader && authHeader.split(' ')[1];
+	const authHeader = req.query['access-token'];
+	const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.status(401).send('Access Denied');
+	if (!token) return res.status(401).send('Access Denied');
 
 	try {
-    const verify = jwt.verify(token, process.env.TOKEN_SECRET);
+		const verify = jwt.verify(token, process.env.TOKEN_SECRET);
 		req.userId = verify._id;
 		next();
 	} catch (err) {
@@ -56,26 +55,22 @@ const verifyToken = (req, res, next) => {
 };
 
 const updateToken = (req, res) => {
-  const refreshToken = req.query['refresh-token'];
-  console.log(req.query);
+	const refreshToken = req.query['refresh-token'];
 
-  if (!refreshToken) return res.status(401).send('Access Denied');
-  // if (!refreshTokens.includes(refreshToken)) return res.status(403).send('Access Denied');
+	if (!refreshToken) return res.status(401).send('Access Denied');
+	// if (!refreshTokens.includes(refreshToken)) return res.status(403).send('Access Denied');
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(403).send('Invalid Token');
-    const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '10m' })
-    res.header({ 'access-token': `Bearer ${accessToken}` }).send();
-  })
-}
+	jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+		if (err) return res.status(403).send('Invalid Token');
+		const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '30m' });
+		res.header({ 'access-token': `Bearer ${accessToken}` }).send();
+	});
+};
 
 const logout = (req, res) => {
-  RefreshToken.deleteMany({ refreshToken: req.headers['refresh-token'] })
-    .then(() => res.status(203).send('Success'))
-    .catch((err) => {
-      console.log('err', err);
-      res.status(500).send('There was an error, try again later');
-    });
-}
+	RefreshToken.deleteMany({ refreshToken: req.headers['refresh-token'] })
+		.then(() => res.status(203).send('Success'))
+		.catch(() => res.status(500).send('There was an error, try again later'));
+};
 
 module.exports = { checkEmail, checkPassword, createToken, verifyToken, updateToken, logout };
