@@ -17,7 +17,7 @@ const Profile = ({ loggedIn, initialFirstName, initialLastName, initialUsername,
 	const [username, setUsername] = useState('');
 	const [badUsername, setBadUsername] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isDisabled, setDisabled] = useState(false);
+	const [isDisabled, setDisabled] = useState(true);
 	const { location, push: pushPathname } = useHistory();
 
 	const onSubmit = e => {

@@ -22,41 +22,41 @@ const Info = ({ accessToken, profileImage, opponents, selectedOpponents, fetchUs
 	}, [cleared, opponents, amountPerPage, clearOpponents, fetchUsers, page, accessToken]);
 
 	return accessToken 
-		? profileImage
-			? (
-				<div className='container'>
-					<div className='card mt-4'>
-						<div className='card-header text-center bg-info text-white'>
+		// ? profileImage
+		? (
+			<div className='container'>
+				<div className='card mt-4'>
+					<div className='card-header text-center bg-info text-white'>
             Choose your opponents
-						</div>
-						<form>
-							<div className='card-body py-0'>
-								{ opponents && opponents.length ? opponents.map((opponent) => (
-									<div
-										className='card-profile'
-										key={`${opponent.username}-${opponent._id}`}
-										onClick={() => selectOpponent(opponent._id)}
-									>
-										<img src={'https://dice-profile-image-store.herokuapp.com/' + opponent.profileImage} alt='' className='card-profile-img' />
-										<p className='attendee-name'>
-											{ `${opponent.firstName}` }
-											<span className='attendee-username'>@{ opponent.username }</span>
-										</p>
-										<div className="custom-control custom-checkbox my-auto">
-											<input checked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} onChange={() => null} type="checkbox" className="custom-control-input" />
-											<label className="custom-control-label" />
-										</div>
-									</div>
-								)) : null }
-							</div>
-						</form>
 					</div>
+					<form>
+						<div className='card-body py-0'>
+							{ opponents && opponents.length ? opponents.map((opponent) => (
+								<div
+									className='card-profile'
+									key={`${opponent.username}-${opponent._id}`}
+									onClick={() => selectOpponent(opponent._id)}
+								>
+									<img src={'https://dice-profile-image-store.herokuapp.com/' + opponent.profileImage} alt='' className='card-profile-img' />
+									<p className='attendee-name'>
+										{ `${opponent.firstName}` }
+										<span className='attendee-username'>@{ opponent.username }</span>
+									</p>
+									<div className="custom-control custom-checkbox my-auto">
+										<input checked={selectedOpponents.length && selectedOpponents.some((elem) => elem._id === opponent._id)} onChange={() => null} type="checkbox" className="custom-control-input" />
+										<label className="custom-control-label" />
+									</div>
+								</div>
+							)) : null }
+						</div>
+					</form>
 				</div>
-			)
-			: <Redirect to={{
-				pathname: '/profile/image-upload',
-				state: location.pathname,
-			}} />
+			</div>
+		)
+	// : <Redirect to={{
+	// 	pathname: '/profile/image-upload',
+	// 	state: location.pathname,
+	// }} />
 		: <Redirect to={{
 			pathname: '/accounts/login',
 			state: location.pathname,
